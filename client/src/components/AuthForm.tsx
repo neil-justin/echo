@@ -17,9 +17,10 @@ import { useForm } from 'react-hook-form';
 const authFormSchema = z
   .object({
     email: z.string().email('Must be a valid email address'),
-    password: z
-      .string()
-      .min(8, { message: 'Password must be at least 8 characters long' }),
+    password: z.string().min(8, {
+      message:
+        'Password must be at least 8 characters long including special characters, numbers, lowercase and uppercase letters',
+    }),
   })
   .required();
 
@@ -55,7 +56,7 @@ const AuthForm = ({ authFor }: AuthFormProps) => {
                   name='email'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel htmlFor='email'>Email</FormLabel>
                       <FormControl>
                         <Input
                           id='email'
@@ -74,7 +75,7 @@ const AuthForm = ({ authFor }: AuthFormProps) => {
                   name='password'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel htmlFor='password'>Password</FormLabel>
                       <FormControl>
                         <Input
                           id='password'
