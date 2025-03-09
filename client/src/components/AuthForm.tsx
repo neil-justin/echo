@@ -92,7 +92,7 @@ const AuthForm = ({ authFor }: AuthFormProps) => {
                 <div className='flex flex-col gap-3'>
                   <Button
                     type='submit'
-                    className='w-full'
+                    className='w-full hover:cursor-pointer'
                   >
                     {authFor}
                   </Button>
