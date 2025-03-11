@@ -1,8 +1,12 @@
 import app from '@/index';
 import { PORT } from '@/utils/config';
+import connectToDb from '@/utils/db';
 
-console.log('PORT', PORT);
+const startServer = async () => {
+  await connectToDb();
+  app.listen(PORT, () => {
+    console.log('Express app is listening on PORT ', PORT);
+  });
+};
 
-app.listen(PORT, () => {
-  console.log('Express app is listening on PORT ', PORT);
-});
+startServer();
