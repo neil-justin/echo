@@ -1,8 +1,11 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
+import { POSTGRES_URI } from '@/utils/config';
+
+export const sequelize = new Sequelize(POSTGRES_URI, {
+  models: ['../models'],
+});
 
 const connectToDb = async () => {
-  const sequelize = new Sequelize(process.env.POSTGRES_URI);
-
   try {
     await sequelize.authenticate();
     console.log('Postgresql connection has been established successfully.');

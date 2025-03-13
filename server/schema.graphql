@@ -1,0 +1,19 @@
+type User {
+  uid: String!
+  email: String!
+}
+
+type AddUserMutationResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  user: User
+}
+
+type Query {
+  placeholder: String
+}
+
+type Mutation {
+  addUser(uid: String!, email: String!): AddUserMutationResponse
+}

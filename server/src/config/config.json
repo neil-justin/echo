@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "neil",
+    "password": "!Welcome?121604",
+    "database": "echo",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "neil",
+    "password": "!Welcome?121604",
+    "database": "echo",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "neil",
+    "password": "!Welcome?121604",
+    "database": "echo",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
