@@ -14,6 +14,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { User } from 'firebase/auth';
+import { useNavigate } from 'react-router';
 
 const authFormSchema = z
   .object({
@@ -39,8 +40,16 @@ const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
     },
   });
 
+  const navigate = useNavigate();
+
   const onFormSubmit = async (values: z.infer<typeof authFormSchema>) => {
     await authFn(values);
+
+    const redirectPath =
+      // Replace '/' later after implementing login
+      authFor === 'Register' ? '/auth/verification-reminder' : '/';
+
+    navigate(redirectPath);
   };
 
   return (

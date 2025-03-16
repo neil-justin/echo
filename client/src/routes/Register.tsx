@@ -24,7 +24,11 @@ const ADD_USER = gql`
   }
 `;
 
-const Register = () => {
+interface RegisterProps {
+  updateUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
+
+const Register = ({ updateUser }: RegisterProps) => {
   const [addUser] = useMutation(ADD_USER);
 
   const registerUser = async (user: AuthFormInput): Promise<User> => {
@@ -55,6 +59,8 @@ const Register = () => {
           email: firebaseUser.email,
         },
       });
+
+      updateUser(firebaseUser);
 
       return firebaseUser;
     } else {
