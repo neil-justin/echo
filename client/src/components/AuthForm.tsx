@@ -13,6 +13,7 @@ import {
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { User } from 'firebase/auth';
 
 const authFormSchema = z
   .object({
@@ -26,9 +27,10 @@ const authFormSchema = z
 
 interface AuthFormProps {
   authFor: 'Register';
+  authFn: (user: z.infer<typeof authFormSchema>) => Promise<User>;
 }
 
-const AuthForm = ({ authFor }: AuthFormProps) => {
+const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
   const form = useForm<z.infer<typeof authFormSchema>>({
     resolver: zodResolver(authFormSchema),
     defaultValues: {
@@ -37,8 +39,8 @@ const AuthForm = ({ authFor }: AuthFormProps) => {
     },
   });
 
-  const onFormSubmit = (values: z.infer<typeof authFormSchema>) => {
-    console.log(values);
+  const onFormSubmit = async (values: z.infer<typeof authFormSchema>) => {
+    await authFn(values);
   };
 
   return (
