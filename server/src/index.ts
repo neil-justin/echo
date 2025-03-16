@@ -10,11 +10,13 @@ import { readFileSync } from 'fs';
 
 const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 
+export interface MyContext {}
+
 const app = express();
 
 const httpServer = http.createServer(app);
 
-const server = new ApolloServer({
+const server = new ApolloServer<MyContext>({
   typeDefs,
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
