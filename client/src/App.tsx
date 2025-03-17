@@ -3,6 +3,7 @@ import Register from '@/routes/Register';
 import VerificationReminder from './routes/VerificationReminder';
 import { useState } from 'react';
 import { User } from 'firebase/auth';
+import Login from '@/routes/Login';
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -17,6 +18,10 @@ function App() {
         <Route
           path='verification-reminder'
           element={<VerificationReminder user={user} />}
+        />
+        <Route
+          path='login'
+          element={<Login />}
         />
       </Route>
     </Routes>

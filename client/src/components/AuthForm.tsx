@@ -14,7 +14,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { User } from 'firebase/auth';
-import { useNavigate } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 
 const authFormSchema = z
   .object({
@@ -27,7 +27,7 @@ const authFormSchema = z
   .required();
 
 interface AuthFormProps {
-  authFor: 'Register';
+  authFor: 'Register' | 'Login';
   authFn: (user: z.infer<typeof authFormSchema>) => Promise<User>;
 }
 
@@ -111,12 +111,12 @@ const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
               </div>
               <div className='mt-4 text-center text-sm'>
                 Already have an account?{' '}
-                <a
-                  href='#'
+                <NavLink
+                  to={authFor === 'Register' ? '/auth/login' : '/chats'}
                   className='underline underline-offset-4 hover:no-underline'
                 >
                   {authFor === 'Register' ? 'Login' : 'Register'}
-                </a>
+                </NavLink>
               </div>
             </form>
           </Form>
