@@ -113,7 +113,7 @@ const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
                 Already have an account?{' '}
                 <a
                   href='#'
-                  className='underline underline-offset-4'
+                  className='underline underline-offset-4 hover:no-underline'
                 >
                   {authFor === 'Register' ? 'Login' : 'Register'}
                 </a>
