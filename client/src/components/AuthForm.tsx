@@ -53,7 +53,10 @@ const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
   };
 
   return (
-    <div className={cn('flex flex-col gap-6')}>
+    <div
+      className={cn('flex flex-col gap-6')}
+      data-testid='auth-form'
+    >
       <Card>
         <CardHeader>
           <CardTitle>{authFor} to your account</CardTitle>

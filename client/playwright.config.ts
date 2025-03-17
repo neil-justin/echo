@@ -1,4 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * Read environment variables from file.
@@ -13,6 +18,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
  */
 export default defineConfig({
   timeout: 60_000,
+  expect: { timeout: 60_000 },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
