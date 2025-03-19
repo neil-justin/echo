@@ -4,13 +4,17 @@ import VerificationReminder from './routes/VerificationReminder';
 import { useState } from 'react';
 import { User } from 'firebase/auth';
 import Login from '@/routes/Login';
+import ProtectedAuthWrapper from './components/ProtectedAuthWrapper';
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
 
   return (
     <Routes>
-      <Route path='auth'>
+      <Route
+        path='auth'
+        element={<ProtectedAuthWrapper />}
+      >
         <Route
           path='register'
           element={<Register updateUser={setUser} />}
