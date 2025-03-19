@@ -10,10 +10,18 @@ type AddUserMutationResponse {
   user: User
 }
 
+type GenerateTokenMutationResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  token: String!
+}
+
 type Query {
   placeholder: String
 }
 
 type Mutation {
   addUser(uid: String!, email: String!): AddUserMutationResponse
+  generateToken(email: String!): GenerateTokenMutationResponse
 }

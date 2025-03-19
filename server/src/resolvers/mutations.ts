@@ -1,5 +1,7 @@
 import { MutationResolvers } from '../__generated__/resolvers-types';
 import User from '@/models/user';
+import { SECRET } from '@/utils/config';
+import jwt from 'jsonwebtoken';
 
 // Use the generated `MutationResolvers` type to type check our mutations!
 const mutations: MutationResolvers = {
@@ -21,6 +23,16 @@ const mutations: MutationResolvers = {
         user: null,
       };
     }
+  },
+  generateToken: async (parent, { email }, contextValue, info) => {
+    // Expires in 15 minutes
+    const token = jwt.sign({ email }, SECRET, { expiresIn: 60 * 15 });
+    return {
+      code: '200',
+      success: true,
+      message: 'Token generated successfully!',
+      token,
+    };
   },
 };
 
