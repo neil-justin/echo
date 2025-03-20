@@ -20,7 +20,7 @@ const migrator = configureMigrator();
 
 export type Migration = typeof migrator._types.migration;
 
-const runMigrations = async () => {
+export const runMigrations = async () => {
   const migrations = await migrator.up();
   console.log('Migrations up to date', {
     files: migrations.map((mig) => mig.name),
@@ -35,7 +35,6 @@ export const rollbackMigration = async () => {
 const connectToDb = async () => {
   try {
     await sequelize.authenticate();
-    await runMigrations();
     console.log('Postgresql connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);

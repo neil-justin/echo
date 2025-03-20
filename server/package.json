@@ -11,7 +11,8 @@
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "start": "tsx -r tsconfig-paths/register ./dist/server.js",
     "dev": "npm run generate && tsx watch -r tsconfig-paths/register ./src/server.ts",
-    "migration:down": "tsx -r tsconfig-paths/register ./src/utils/rollbackMigration.ts"
+    "migration:down": "tsx -r tsconfig-paths/register ./src/utils/rollbackMigration.ts",
+    "migration:up": "tsx -r tsconfig-paths/register ./src/utils/runMigrations.ts"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.5",
