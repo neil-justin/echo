@@ -112,7 +112,7 @@ const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
               <div className='mt-4 text-center text-sm'>
                 Already have an account?{' '}
                 <NavLink
-                  to={authFor === 'Register' ? '/auth/login' : '/chats'}
+                  to={authFor === 'Register' ? '/auth/login' : '/auth/register'}
                   className='underline underline-offset-4 hover:no-underline'
                 >
                   {authFor === 'Register' ? 'Login' : 'Register'}
