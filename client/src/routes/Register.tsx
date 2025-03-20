@@ -11,8 +11,18 @@ import { gql, useMutation } from '@apollo/client';
 import { AuthFormInput } from '@/types';
 
 const ADD_USER = gql`
-  mutation AddUser($uid: String!, $email: String!) {
-    addUser(uid: $uid, email: $email) {
+  mutation AddUser(
+    $uid: String!
+    $email: String!
+    $firstName: String!
+    $lastName: String!
+  ) {
+    addUser(
+      uid: $uid
+      email: $email
+      firstName: $firstName
+      lastName: $lastName
+    ) {
       code
       success
       message
@@ -32,7 +42,7 @@ const Register = ({ updateUser }: RegisterProps) => {
   const [addUser] = useMutation(ADD_USER);
 
   const registerUser = async (user: AuthFormInput): Promise<User> => {
-    const { email, password } = user;
+    const { email, password, firstName, lastName } = user;
     const currentUser = auth.currentUser;
 
     if (currentUser) {
@@ -57,6 +67,8 @@ const Register = ({ updateUser }: RegisterProps) => {
         variables: {
           uid: firebaseUser.uid,
           email: firebaseUser.email,
+          firstName,
+          lastName,
         },
       });
 

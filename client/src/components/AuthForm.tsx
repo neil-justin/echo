@@ -10,31 +10,24 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { User } from 'firebase/auth';
 import { NavLink, useNavigate } from 'react-router';
-
-const authFormSchema = z
-  .object({
-    email: z.string().email('Must be a valid email address'),
-    password: z.string().min(8, {
-      message:
-        'Password must be at least 8 characters long including special characters, numbers, lowercase and uppercase letters',
-    }),
-  })
-  .required();
+import { AuthFormInput } from '@/types';
+import { authFormSchema } from '@/utils/schema';
 
 interface AuthFormProps {
   authFor: 'Register' | 'Login';
-  authFn: (user: z.infer<typeof authFormSchema>) => Promise<User>;
+  authFn: (user: AuthFormInput) => Promise<User>;
 }
 
 const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
-  const form = useForm<z.infer<typeof authFormSchema>>({
+  const form = useForm<AuthFormInput>({
     resolver: zodResolver(authFormSchema),
     defaultValues: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
     },
@@ -42,7 +35,7 @@ const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
 
   const navigate = useNavigate();
 
-  const onFormSubmit = async (values: z.infer<typeof authFormSchema>) => {
+  const onFormSubmit = async (values: AuthFormInput) => {
     await authFn(values);
 
     const redirectPath =
@@ -62,6 +55,48 @@ const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onFormSubmit)}>
               <div className='flex flex-col gap-6'>
+                {authFor === 'Register' ? (
+                  <div className='grid grid-cols-2 gap-4'>
+                    <FormField
+                      control={form.control}
+                      name='firstName'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor='firstName'>First Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              id='firstName'
+                              placeholder='John'
+                              type='text'
+                              required
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='lastName'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor='lastName'>Last Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              id='lastName'
+                              placeholder='Doe'
+                              type='text'
+                              required
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ) : null}
                 <FormField
                   control={form.control}
                   name='email'
