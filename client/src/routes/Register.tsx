@@ -10,35 +10,35 @@ import { FirebaseError } from 'firebase/app';
 import { gql, useMutation } from '@apollo/client';
 import { AuthFormInput } from '@/types';
 
-const ADD_USER = gql`
-  mutation AddUser(
-    $uid: String!
-    $email: String!
-    $firstName: String!
-    $lastName: String!
-  ) {
-    addUser(
-      uid: $uid
-      email: $email
-      firstName: $firstName
-      lastName: $lastName
-    ) {
-      code
-      success
-      message
-      user {
-        uid
-        email
-      }
-    }
-  }
-`;
-
 interface RegisterProps {
   updateUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const Register = ({ updateUser }: RegisterProps) => {
+  const ADD_USER = gql`
+    mutation AddUser(
+      $uid: String!
+      $email: String!
+      $firstName: String!
+      $lastName: String!
+    ) {
+      addUser(
+        uid: $uid
+        email: $email
+        firstName: $firstName
+        lastName: $lastName
+      ) {
+        code
+        success
+        message
+        user {
+          uid
+          email
+        }
+      }
+    }
+  `;
+
   const [addUser] = useMutation(ADD_USER);
 
   const registerUser = async (user: AuthFormInput): Promise<User> => {
