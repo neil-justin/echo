@@ -6,14 +6,17 @@ export const sequelize = new Sequelize(POSTGRES_URI, {
   models: ['../models'],
 });
 
-const migrator = new Umzug({
-  migrations: {
-    glob: ['migrations/*.ts', { cwd: 'src/' }],
-  },
-  storage: new SequelizeStorage({ sequelize, tableName: 'migrations' }),
-  context: sequelize.getQueryInterface(),
-  logger: console,
-});
+const configureMigrator = () =>
+  new Umzug({
+    migrations: {
+      glob: ['migrations/*.ts', { cwd: 'src/' }],
+    },
+    storage: new SequelizeStorage({ sequelize, tableName: 'migrations' }),
+    context: sequelize.getQueryInterface(),
+    logger: console,
+  });
+
+const migrator = configureMigrator();
 
 export type Migration = typeof migrator._types.migration;
 
@@ -22,6 +25,11 @@ const runMigrations = async () => {
   console.log('Migrations up to date', {
     files: migrations.map((mig) => mig.name),
   });
+};
+
+export const rollbackMigration = async () => {
+  await sequelize.authenticate();
+  await migrator.down();
 };
 
 const connectToDb = async () => {
