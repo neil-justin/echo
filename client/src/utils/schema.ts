@@ -5,19 +5,19 @@ const authFormSchema = z.object({
   firstName: z
     .string()
     .regex(/^[A-Za-z\s]+$/, {
-      message: 'First name must contain only alphabets',
+      message: 'Must contain only alphabets',
     })
     .optional(),
   lastName: z
     .string()
     .regex(/^[A-Za-z\s]+$/, {
-      message: 'Last name must contain only alphabets',
+      message: 'Must contain only alphabets',
     })
     .optional(),
   email: z.string().email('Must be a valid email address'),
   password: z.string().min(8, {
     message:
-      'Password must be at least 8 characters long including special characters, numbers, lowercase and uppercase letters',
+      'Must be at least 8 characters long including special characters, numbers, lowercase and uppercase letters',
   }),
 });
 
