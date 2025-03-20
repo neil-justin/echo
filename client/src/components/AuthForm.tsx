@@ -40,7 +40,7 @@ const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
 
     const redirectPath =
       // Replace '/' later after implementing login
-      authFor === 'Register' ? '/auth/verification-reminder' : '/';
+      authFor === 'Register' ? '/auth/verification-reminder' : '/chats';
 
     navigate(redirectPath);
   };
