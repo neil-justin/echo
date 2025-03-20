@@ -1,6 +1,8 @@
 type User {
   uid: String!
   email: String!
+  firstName: String!
+  lastName: String!
 }
 
 type AddUserMutationResponse {
@@ -22,6 +24,11 @@ type Query {
 }
 
 type Mutation {
-  addUser(uid: String!, email: String!): AddUserMutationResponse
+  addUser(
+    uid: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+  ): AddUserMutationResponse
   generateToken(email: String!): GenerateTokenMutationResponse
 }
