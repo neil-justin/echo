@@ -5,9 +5,14 @@ import jwt from 'jsonwebtoken';
 
 // Use the generated `MutationResolvers` type to type check our mutations!
 const mutations: MutationResolvers = {
-  addUser: async (parent, { uid, email }, contextValue, info) => {
+  addUser: async (
+    parent,
+    { uid, email, firstName, lastName },
+    contextValue,
+    info
+  ) => {
     try {
-      const user = await User.create({ uid, email });
+      const user = await User.create({ uid, email, firstName, lastName });
       return {
         code: '200',
         success: true,
