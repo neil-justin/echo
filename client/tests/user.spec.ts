@@ -4,6 +4,12 @@ test.skip('User registered successfully', async ({ page }) => {
   await page.goto('/auth/register');
 
   await page
+    .getByRole('textbox', { name: 'First Name' })
+    .fill(process.env.TEST_FIRST_NAME!);
+  await page
+    .getByRole('textbox', { name: 'Last Name' })
+    .fill(process.env.TEST_LAST_NAME!);
+  await page
     .getByRole('textbox', { name: 'Email' })
     .fill(process.env.TEST_EMAIL!);
   await page
