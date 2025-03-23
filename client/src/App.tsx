@@ -4,7 +4,8 @@ import VerificationReminder from './routes/VerificationReminder';
 import { useState } from 'react';
 import { User } from 'firebase/auth';
 import Login from '@/routes/Login';
-import ProtectedAuthWrapper from './components/ProtectedAuthWrapper';
+import ProtectedWrapper from './components/ProtectedWrapper';
+import Chats from './routes/Chats';
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -13,7 +14,7 @@ function App() {
     <Routes>
       <Route
         path='auth'
-        element={<ProtectedAuthWrapper />}
+        element={<ProtectedWrapper />}
       >
         <Route
           path='register'
@@ -26,6 +27,12 @@ function App() {
         <Route
           path='login'
           element={<Login />}
+        />
+      </Route>
+      <Route element={<ProtectedWrapper />}>
+        <Route
+          path='chats'
+          element={<Chats />}
         />
       </Route>
     </Routes>

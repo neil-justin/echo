@@ -17,9 +17,19 @@ const Login = () => {
   `;
 
   const [generateToken] = useMutation(GENERATE_TOKEN, {
-    update(_cache, { data: { generateToken } }) {
-      if (generateToken.success) {
-        localStorage.setItem('user-token', generateToken.token);
+    update(
+      _cache,
+      result: {
+        data?: {
+          generateToken: {
+            success: boolean;
+            token: string;
+          };
+        };
+      }
+    ) {
+      if (result.data?.generateToken.success) {
+        localStorage.setItem('user-token', result.data.generateToken.token);
       }
     },
   });

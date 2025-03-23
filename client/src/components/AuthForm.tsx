@@ -26,8 +26,13 @@ const AuthForm = ({ authFor, authFn }: AuthFormProps) => {
   const form = useForm<AuthFormInput>({
     resolver: zodResolver(authFormSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
+      // Conditionally settting default values for Register form
+      // This allows Login form to have only email and password fields
+      // and work as expected
+      ...(authFor === 'Register' && {
+        firstName: '',
+        lastName: '',
+      }),
       email: '',
       password: '',
     },
