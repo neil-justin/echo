@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { NavLink } from 'react-router';
 import classNames from 'classnames';
+import { ModeToggle } from './mode-toggle';
 
 interface DummyUser {
   id: number;
@@ -89,7 +90,7 @@ const Sidebar = () => {
         </div>
         <div>
           {/* Placeholder for theme switcher */}
-          <p>test</p>
+          <ModeToggle />
         </div>
       </TabsList>
       <TabsContent
@@ -115,7 +116,9 @@ const Sidebar = () => {
               <NavLink
                 to={`/chats/${conversation.id}`}
                 className={({ isActive }) =>
-                  classNames('flex gap-2 p-2 rounded-md', { 'bg-gray-200': isActive })
+                  classNames('flex gap-2 p-2 rounded-md', {
+                    'bg-gray-200': isActive,
+                  })
                 }
                 key={conversation.id}
               >

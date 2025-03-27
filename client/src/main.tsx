@@ -9,6 +9,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('user-token');
@@ -34,7 +35,12 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={client}>
       <BrowserRouter>
-        <App />
+        <ThemeProvider
+          defaultTheme='dark'
+          storageKey='vite-ui-theme'
+        >
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     </ApolloProvider>
   </StrictMode>
