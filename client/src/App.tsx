@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { User } from 'firebase/auth';
 import Login from '@/routes/Login';
 import ProtectedWrapper from './components/ProtectedWrapper';
-import Chats from './routes/Chats';
+import Chats from '@/routes/Chats';
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
