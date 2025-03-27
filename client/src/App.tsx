@@ -31,7 +31,7 @@ function App() {
       </Route>
       <Route element={<ProtectedWrapper />}>
         <Route
-          path='chats'
+          path='chats/:id?'
           element={<Chats />}
         />
       </Route>
