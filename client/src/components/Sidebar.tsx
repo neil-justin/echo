@@ -6,6 +6,12 @@ import { NavLink } from 'react-router';
 import classNames from 'classnames';
 import { ModeToggle } from './mode-toggle';
 import { DummyUser } from '@/types';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface lastMessageAttribute {
   sender: number;
@@ -83,7 +89,17 @@ const Sidebar = ({ updateRecipient }: SidebarProps) => {
             value='chats'
             className='h-fit p-4'
           >
-            <MessageCircleMore className='scale-150' />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger className='hover:cursor-pointer'>
+                  {' '}
+                  <MessageCircleMore className='scale-150' />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>Chats</span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </TabsTrigger>
         </div>
         <div>
