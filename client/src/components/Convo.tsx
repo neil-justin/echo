@@ -6,8 +6,15 @@ import {
   ConversationHeader,
 } from '@chatscope/chat-ui-kit-react';
 import { DummyUser } from '@/types';
-import { Ellipsis } from 'lucide-react';
+import { Ellipsis, Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Archive } from 'lucide-react';
 
 interface DummyMessage {
   id: number;
@@ -75,12 +82,30 @@ const Convo = ({ recipient }: ConvoProps) => {
           userName={`${recipient.firstName} ${recipient.lastName}`}
         />
         <ConversationHeader.Actions>
-          <Button
-            variant='ghost'
-            className='hover:cursor-pointer'
-          >
-            <Ellipsis />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button
+                variant='ghost'
+                className='hover:cursor-pointer'
+              >
+                <Ellipsis />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className='mr-5 p-2 bg-muted grid'>
+              <DropdownMenuItem className='hover:cursor-pointer hover:bg-gray-200 hover:dark:bg-gray-800 p-2'>
+                <span>
+                  <Archive />
+                </span>
+                Archive chat
+              </DropdownMenuItem>
+              <DropdownMenuItem className='hover:cursor-pointer hover:bg-gray-200 hover:dark:bg-gray-800 p-2'>
+                <span>
+                  <Trash2 />
+                </span>
+                Delete chat
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </ConversationHeader.Actions>
       </ConversationHeader>
       <MessageList className='dark:bg-primary'>
