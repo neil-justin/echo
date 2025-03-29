@@ -13,7 +13,6 @@ interface VerificationReminderProps {
 }
 
 const VerificationReminder = ({ user }: VerificationReminderProps) => {
-  console.log('user', user);
   if (!user) return;
 
   return (

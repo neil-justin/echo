@@ -103,7 +103,6 @@ const Sidebar = ({ updateRecipient }: SidebarProps) => {
         {/* Conversation list */}
         <div className='flex flex-col gap-2'>
           {dummyConversations.map((conversation) => {
-            console.log(conversation.id);
             const recipient =
               dummyLoggedInUser.id === conversation.participants[0].id
                 ? conversation.participants[1]
@@ -134,7 +133,6 @@ const Sidebar = ({ updateRecipient }: SidebarProps) => {
                     )}${recipient.lastName.substring(0, 1)}`}
                   </AvatarFallback>
                 </Avatar>
-                {/* min-w value is arbitrary */}
                 <div>
                   <p className='text-foreground und whitespace-nowrap'>{`${recipient.firstName} ${recipient.lastName}`}</p>
                   <p className='text-foreground/50 text-sm whitespace-nowrap'>
