@@ -92,7 +92,6 @@ const Sidebar = ({ updateRecipient }: SidebarProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger className='hover:cursor-pointer'>
-                  {' '}
                   <MessageCircleMore className='scale-150' />
                 </TooltipTrigger>
                 <TooltipContent>

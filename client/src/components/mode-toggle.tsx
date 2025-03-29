@@ -14,7 +14,10 @@ export function ModeToggle() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger
+        asChild
+        className='hover:cursor-pointer'
+      >
         <Button
           variant='outline'
           size='icon'
