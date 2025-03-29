@@ -1,0 +1,64 @@
+.cs-button--send:hover {
+  cursor: pointer;
+}
+
+.cs-message--incoming .cs-message__content {
+  background-color: #e5e7eb;
+}
+
+.cs-conversation-header {
+  background-color: var(--background);
+  border: 1px solid var(--muted);
+}
+
+.cs-conversation-header__content .cs-conversation-header__user-name {
+  background-color: var(--background);
+}
+
+.dark .cs-message--incoming .cs-message__content {
+  background-color: oklch(0.31 0 0);
+  color: whitesmoke;
+}
+
+.dark .cs-message-list {
+  background-color: var(--background);
+}
+
+.dark .cs-conversation-header__user-name {
+  color: whitesmoke;
+}
+
+.dark .lucide-ellipsis {
+  color: whitesmoke;
+}
+
+.cs-chat-container .cs-message-input {
+  background-color: var(--background);
+  border: 1px solid var(--muted);
+}
+.cs-message-input__content-editor-wrapper {
+  background-color: var(--muted);
+}
+
+.cs-message-input__content-editor {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+.dark .cs-message-input__content-editor-wrapper {
+  background-color: oklch(0.31 0 0);
+}
+
+.dark .cs-message-input__content-editor {
+  background-color: oklch(0.31 0 0);
+  color: whitesmoke;
+}
+
+.dark .cs-message-input__content-editor[data-placeholder]:empty:before {
+  color: color-mix(in oklab, var(--foreground) 50%, transparent);
+}
+
+.cs-button--send {
+  color: hsl(142.1 76.2% 36.3%);
+  fill: hsl(142.1 76.2% 36.3%);
+}

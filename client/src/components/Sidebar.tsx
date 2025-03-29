@@ -5,13 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { NavLink } from 'react-router';
 import classNames from 'classnames';
 import { ModeToggle } from './mode-toggle';
-
-interface DummyUser {
-  id: number;
-  firstName: string;
-  lastName: string;
-  avatar?: string;
-}
+import { DummyUser } from '@/types';
 
 interface lastMessageAttribute {
   sender: number;
@@ -24,7 +18,11 @@ interface DummyConversation {
   lastMessage: lastMessageAttribute;
 }
 
-const Sidebar = () => {
+interface SidebarProps {
+  updateRecipient: React.Dispatch<React.SetStateAction<DummyUser | null>>;
+}
+
+const Sidebar = ({ updateRecipient }: SidebarProps) => {
   const dummyLoggedInUser: DummyUser = {
     id: 1,
     firstName: 'Neil Justin',
@@ -76,9 +74,9 @@ const Sidebar = () => {
   return (
     <Tabs
       defaultValue='chats'
-      className='flex-row h-full'
+      className='flex-row h-full bg-muted'
     >
-      <TabsList className='h-full flex flex-col justify-between p-2 rounded-none'>
+      <TabsList className='h-full flex flex-col justify-between border-r rounded-none'>
         {/* Inbox switcher */}
         <div className='grid'>
           <TabsTrigger
@@ -89,13 +87,12 @@ const Sidebar = () => {
           </TabsTrigger>
         </div>
         <div>
-          {/* Placeholder for theme switcher */}
           <ModeToggle />
         </div>
       </TabsList>
       <TabsContent
         value='chats'
-        className='px-2 py-4 flex flex-col gap-3'
+        className='px-2 py-4 flex flex-col gap-3 border-r'
       >
         <h1 className='text-2xl font-bold'>Chats</h1>
         <Input
@@ -117,10 +114,11 @@ const Sidebar = () => {
                 to={`/chats/${conversation.id}`}
                 className={({ isActive }) =>
                   classNames('flex gap-2 p-2 rounded-md', {
-                    'bg-gray-200': isActive,
+                    'bg-gray-200 dark:bg-gray-800': isActive,
                   })
                 }
                 key={conversation.id}
+                onClick={() => updateRecipient(recipient)}
               >
                 <Avatar className='size-12'>
                   <AvatarImage
@@ -138,8 +136,8 @@ const Sidebar = () => {
                 </Avatar>
                 {/* min-w value is arbitrary */}
                 <div>
-                  <p className='whitespace-nowrap'>{`${recipient.firstName} ${recipient.lastName}`}</p>
-                  <p className='text-gray-600 text-sm whitespace-nowrap'>
+                  <p className='text-foreground und whitespace-nowrap'>{`${recipient.firstName} ${recipient.lastName}`}</p>
+                  <p className='text-foreground/50 text-sm whitespace-nowrap'>
                     {dummyLoggedInUser.id === conversation.lastMessage.sender
                       ? `You: ${conversation.lastMessage.content}`
                       : `${conversation.lastMessage.content}`}
