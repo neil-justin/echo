@@ -7,7 +7,6 @@ import {
 } from '@chatscope/chat-ui-kit-react';
 import { DummyUser } from '@/types';
 import { Ellipsis, Trash2 } from 'lucide-react';
-import { Button } from './ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -84,12 +83,9 @@ const Convo = ({ recipient }: ConvoProps) => {
         <ConversationHeader.Actions>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button
-                variant='ghost'
-                className='hover:cursor-pointer'
-              >
+              <div className='hover:cursor-pointer p-2 rounded-md hover:bg-gray-200 hover:dark:bg-gray-800'>
                 <Ellipsis />
-              </Button>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='mr-5 p-2 bg-muted grid'>
               <DropdownMenuItem className='hover:cursor-pointer hover:bg-gray-200 hover:dark:bg-gray-800 p-2'>
