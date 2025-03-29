@@ -6,6 +6,10 @@
   background-color: #e5e7eb;
 }
 
+.cs-message--outgoing .cs-message__content {
+  background-color: hsl(142.1 76.2% 36.3%);
+}
+
 .cs-conversation-header {
   background-color: var(--background);
   border: 1px solid var(--muted);
@@ -61,4 +65,8 @@
 .cs-button--send {
   color: hsl(142.1 76.2% 36.3%);
   fill: hsl(142.1 76.2% 36.3%);
+}
+
+.dark .cs-message--outgoing .cs-message__content {
+  color: whitesmoke;
 }
