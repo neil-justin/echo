@@ -88,13 +88,13 @@ const Convo = ({ recipient }: ConvoProps) => {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='mr-5 p-2 bg-muted grid'>
-              <DropdownMenuItem className='hover:cursor-pointer hover:bg-gray-200 hover:dark:bg-gray-800 p-2'>
+              <DropdownMenuItem className='hover:cursor-pointer hover:bg-gray-300 hover:dark:bg-gray-800 p-2'>
                 <span>
                   <Archive />
                 </span>
                 Archive chat
               </DropdownMenuItem>
-              <DropdownMenuItem className='hover:cursor-pointer hover:bg-gray-200 hover:dark:bg-gray-800 p-2'>
+              <DropdownMenuItem className='hover:cursor-pointer hover:bg-gray-300 hover:dark:bg-gray-800 p-2'>
                 <span>
                   <Trash2 />
                 </span>
