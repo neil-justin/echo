@@ -242,9 +242,9 @@ const Sidebar = ({ updateRecipient }: SidebarProps) => {
                         )}${recipient.lastName.substring(0, 1)}`}
                       </AvatarFallback>
                     </Avatar>
-                    <div>
-                      <p className='text-foreground whitespace-nowrap'>{`${recipient.firstName} ${recipient.lastName}`}</p>
-                      <p className='text-foreground/50 text-sm whitespace-nowrap'>
+                    <div className='w-full whitespace-nowrap overflow-hidden'>
+                      <p className='text-foreground'>{`${recipient.firstName} ${recipient.lastName}`}</p>
+                      <p className='text-foreground/50 text-sm'>
                         {dummyLoggedInUser.id ===
                         conversation.lastMessage.sender
                           ? `You: ${conversation.lastMessage.content}`
