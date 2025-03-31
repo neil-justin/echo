@@ -1,11 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MessageCircleMore } from 'lucide-react';
+import { ArrowLeft, MessageCircleMore } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { NavLink } from 'react-router';
 import classNames from 'classnames';
 import { ModeToggle } from './mode-toggle';
 import { DummyUser } from '@/types';
+import { useEffect, useState } from 'react';
+import { useDebounce } from '@uidotdev/usehooks';
 
 interface lastMessageAttribute {
   sender: number;
@@ -23,6 +25,67 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ updateRecipient }: SidebarProps) => {
+  const [onSearchFocus, setOnSearchFocus] = useState(false);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [users, setUsers] = useState<DummyUser[]>([]);
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+  useEffect(() => {
+    const searchUsers = async () => {
+      let userSearchResult: DummyUser[] = [];
+
+      if (debouncedSearchTerm && searchTerm) {
+        const dummyUsers: DummyUser[] = [
+          {
+            id: 1,
+            firstName: 'Neil Justin',
+            lastName: 'Mallari',
+          },
+          {
+            id: 2,
+            firstName: 'John',
+            lastName: 'Doe',
+            avatar: 'https://github.com/shadcn.png',
+          },
+          {
+            id: 3,
+            firstName: 'Johnny',
+            lastName: 'Doe',
+          },
+        ];
+
+        // SELECT * FROM post WHERE firstName === searchTerm OR lastName === searchTerm;
+        userSearchResult = dummyUsers.filter(
+          (user) =>
+            // toLowerCase() to make the search case insensitive
+            user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+
+      setUsers(userSearchResult);
+    };
+
+    searchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchTerm]);
+
+  const handleSearchInputClick = () => {
+    setOnSearchFocus(true);
+    // No user is ""
+    // This will cause a rerender and display nothing
+    setSearchTerm('');
+  };
+
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleBackSearchClick = () => {
+    setOnSearchFocus(false);
+    setSearchTerm('');
+  };
+
   const dummyLoggedInUser: DummyUser = {
     id: 1,
     firstName: 'Neil Justin',
@@ -92,58 +155,105 @@ const Sidebar = ({ updateRecipient }: SidebarProps) => {
       </TabsList>
       <TabsContent
         value='chats'
-        className='px-2 py-4 flex flex-col gap-3 border-r'
+        className='px-2 py-4 flex flex-col gap-3 border-r min-w-3xs'
       >
         <h1 className='text-2xl font-bold'>Chats</h1>
-        <Input
-          type='text'
-          placeholder='Search Echo'
-          className='rounded-full w-full'
-        />
+        <div className='flex items-center gap-2'>
+          {onSearchFocus ? (
+            <button
+              className='hover:cursor-pointer'
+              onClick={() => handleBackSearchClick()}
+            >
+              <ArrowLeft />
+            </button>
+          ) : null}
+          <Input
+            type='text'
+            placeholder='Search Echo'
+            className='rounded-full w-full'
+            onFocus={() => handleSearchInputClick()}
+            onChange={(e) => handleSearchInputChange(e)}
+            value={searchTerm}
+          />
+        </div>
         {/* Conversation list */}
         <div className='flex flex-col gap-2'>
-          {dummyConversations.map((conversation) => {
-            const recipient =
-              dummyLoggedInUser.id === conversation.participants[0].id
-                ? conversation.participants[1]
-                : conversation.participants[0];
+          {/* onSearchFocus display search results. Else display convo with users */}
+          {onSearchFocus
+            ? users.map((user) => {
+                return (
+                  <NavLink
+                    to={`/chats/${user.id}`}
+                    className={({ isActive }) =>
+                      classNames('flex gap-2 p-2 rounded-md', {
+                        'bg-gray-200 dark:bg-gray-800': isActive,
+                      })
+                    }
+                    key={user.id}
+                  >
+                    <Avatar className='size-12'>
+                      <AvatarImage
+                        src={user.avatar}
+                        alt={`@${user.firstName}`}
+                      />
+                      <AvatarFallback>
+                        {/* Gets the initial letter of first and last names
+         e.g., Neil Justin --> NJ */}
+                        {`${user.firstName.substring(
+                          0,
+                          1
+                        )}${user.lastName.substring(0, 1)}`}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className='text-foreground whitespace-nowrap'>{`${user.firstName} ${user.lastName}`}</p>
+                    </div>
+                  </NavLink>
+                );
+              })
+            : dummyConversations.map((conversation) => {
+                const recipient =
+                  dummyLoggedInUser.id === conversation.participants[0].id
+                    ? conversation.participants[1]
+                    : conversation.participants[0];
 
-            return (
-              <NavLink
-                to={`/chats/${conversation.id}`}
-                className={({ isActive }) =>
-                  classNames('flex gap-2 p-2 rounded-md', {
-                    'bg-gray-200 dark:bg-gray-800': isActive,
-                  })
-                }
-                key={conversation.id}
-                onClick={() => updateRecipient(recipient)}
-              >
-                <Avatar className='size-12'>
-                  <AvatarImage
-                    src={recipient.avatar}
-                    alt={`@${recipient.firstName}`}
-                  />
-                  <AvatarFallback>
-                    {/* Gets the initial letter of first and last names
-                     e.g., Neil Justin --> NJ */}
-                    {`${recipient.firstName.substring(
-                      0,
-                      1
-                    )}${recipient.lastName.substring(0, 1)}`}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className='text-foreground und whitespace-nowrap'>{`${recipient.firstName} ${recipient.lastName}`}</p>
-                  <p className='text-foreground/50 text-sm whitespace-nowrap'>
-                    {dummyLoggedInUser.id === conversation.lastMessage.sender
-                      ? `You: ${conversation.lastMessage.content}`
-                      : `${conversation.lastMessage.content}`}
-                  </p>
-                </div>
-              </NavLink>
-            );
-          })}
+                return (
+                  <NavLink
+                    to={`/chats/${conversation.id}`}
+                    className={({ isActive }) =>
+                      classNames('flex gap-2 p-2 rounded-md', {
+                        'bg-gray-200 dark:bg-gray-800': isActive,
+                      })
+                    }
+                    key={conversation.id}
+                    onClick={() => updateRecipient(recipient)}
+                  >
+                    <Avatar className='size-12'>
+                      <AvatarImage
+                        src={recipient.avatar}
+                        alt={`@${recipient.firstName}`}
+                      />
+                      <AvatarFallback>
+                        {/* Gets the initial letter of first and last names
+           e.g., Neil Justin --> NJ */}
+                        {`${recipient.firstName.substring(
+                          0,
+                          1
+                        )}${recipient.lastName.substring(0, 1)}`}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className='text-foreground whitespace-nowrap'>{`${recipient.firstName} ${recipient.lastName}`}</p>
+                      <p className='text-foreground/50 text-sm whitespace-nowrap'>
+                        {dummyLoggedInUser.id ===
+                        conversation.lastMessage.sender
+                          ? `You: ${conversation.lastMessage.content}`
+                          : `${conversation.lastMessage.content}`}
+                      </p>
+                    </div>
+                  </NavLink>
+                );
+              })}
         </div>
       </TabsContent>
     </Tabs>
