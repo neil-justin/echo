@@ -6,13 +6,11 @@ export const up: Migration = async ({
 }: {
   context: QueryInterface;
 }) => {
-  await queryInterface.addColumn('users', 'first_name', {
-    type: DataTypes.STRING,
+  await queryInterface.changeColumn('users', 'id', {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     allowNull: false,
-  });
-  await queryInterface.addColumn('users', 'last_name', {
-    type: DataTypes.STRING,
-    allowNull: false,
+    primaryKey: true,
   });
 };
 
@@ -21,6 +19,9 @@ export const down: Migration = async ({
 }: {
   context: QueryInterface;
 }) => {
-  await queryInterface.removeColumn('users', 'first_name');
-  await queryInterface.removeColumn('users', 'last_name');
+  await queryInterface.changeColumn('users', 'id', {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  });
 };

@@ -8,7 +8,7 @@ import {
 import { sequelize } from '@/utils/db';
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-  declare id: CreationOptional<number>;
+  declare id: CreationOptional<string>;
   declare uid: string;
   declare email: string;
   declare firstName: string;
@@ -20,8 +20,9 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 User.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
       primaryKey: true,
     },
     uid: {
