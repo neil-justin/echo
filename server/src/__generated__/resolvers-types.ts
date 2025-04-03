@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { MyContext } from './src/index';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
 };
 
 export type AddUserMutationResponse = {
@@ -31,6 +32,7 @@ export type GenerateTokenMutationResponse = {
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
   token: Scalars['String']['output'];
+  user?: Maybe<User>;
 };
 
 export type Mutation = {
@@ -59,10 +61,13 @@ export type Query = {
 
 export type User = {
   __typename?: 'User';
+  createdAt: Scalars['Date']['output'];
   email: Scalars['String']['output'];
   firstName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
   lastName: Scalars['String']['output'];
   uid: Scalars['String']['output'];
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -139,6 +144,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   AddUserMutationResponse: ResolverTypeWrapper<AddUserMutationResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   GenerateTokenMutationResponse: ResolverTypeWrapper<GenerateTokenMutationResponse>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -150,6 +156,7 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   AddUserMutationResponse: AddUserMutationResponse;
   Boolean: Scalars['Boolean']['output'];
+  Date: Scalars['Date']['output'];
   GenerateTokenMutationResponse: GenerateTokenMutationResponse;
   Mutation: {};
   Query: {};
@@ -165,11 +172,16 @@ export type AddUserMutationResponseResolvers<ContextType = MyContext, ParentType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
 export type GenerateTokenMutationResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['GenerateTokenMutationResponse'] = ResolversParentTypes['GenerateTokenMutationResponse']> = ResolversObject<{
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -183,15 +195,19 @@ export type QueryResolvers<ContextType = MyContext, ParentType extends Resolvers
 }>;
 
 export type UserResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = MyContext> = ResolversObject<{
   AddUserMutationResponse?: AddUserMutationResponseResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   GenerateTokenMutationResponse?: GenerateTokenMutationResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

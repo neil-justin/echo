@@ -13,11 +13,12 @@ const mutations: MutationResolvers = {
   ) => {
     try {
       const user = await User.create({ uid, email, firstName, lastName });
+
       return {
         code: '200',
         success: true,
         message: 'User created successfully!',
-        user,
+        user: user.toJSON(),
       };
     } catch (error) {
       console.error(error);
@@ -32,11 +33,14 @@ const mutations: MutationResolvers = {
   generateToken: async (parent, { email }, contextValue, info) => {
     // Expires in 15 minutes
     const token = jwt.sign({ email }, SECRET, { expiresIn: 60 * 15 });
+    const user = await User.findOne({ where: { email } });
+
     return {
       code: '200',
       success: true,
       message: 'Token generated successfully!',
       token,
+      user: user?.toJSON(),
     };
   },
 };
