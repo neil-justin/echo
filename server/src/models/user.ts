@@ -15,6 +15,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare lastName: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+  declare avatar?: string;
 }
 
 User.init(
@@ -45,6 +46,9 @@ User.init(
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
+    avatar: {
+      type: DataTypes.STRING,
+    },
   },
   { sequelize, underscored: true, tableName: 'users', modelName: 'user' }
 );
