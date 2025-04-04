@@ -56,11 +56,25 @@ export type MutationGenerateTokenArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  placeholder?: Maybe<Scalars['String']['output']>;
+  searchedUsers?: Maybe<SearchedUsersQueryResponse>;
+};
+
+
+export type QuerySearchedUsersArgs = {
+  searchTerm: Scalars['String']['input'];
+};
+
+export type SearchedUsersQueryResponse = {
+  __typename?: 'SearchedUsersQueryResponse';
+  code: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+  users?: Maybe<Array<Maybe<User>>>;
 };
 
 export type User = {
   __typename?: 'User';
+  avatar?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['Date']['output'];
   email: Scalars['String']['output'];
   firstName: Scalars['String']['output'];
@@ -148,6 +162,7 @@ export type ResolversTypes = ResolversObject<{
   GenerateTokenMutationResponse: ResolverTypeWrapper<GenerateTokenMutationResponse>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  SearchedUsersQueryResponse: ResolverTypeWrapper<SearchedUsersQueryResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
 }>;
@@ -160,6 +175,7 @@ export type ResolversParentTypes = ResolversObject<{
   GenerateTokenMutationResponse: GenerateTokenMutationResponse;
   Mutation: {};
   Query: {};
+  SearchedUsersQueryResponse: SearchedUsersQueryResponse;
   String: Scalars['String']['output'];
   User: User;
 }>;
@@ -191,10 +207,19 @@ export type MutationResolvers<ContextType = MyContext, ParentType extends Resolv
 }>;
 
 export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  placeholder?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  searchedUsers?: Resolver<Maybe<ResolversTypes['SearchedUsersQueryResponse']>, ParentType, ContextType, RequireFields<QuerySearchedUsersArgs, 'searchTerm'>>;
+}>;
+
+export type SearchedUsersQueryResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['SearchedUsersQueryResponse'] = ResolversParentTypes['SearchedUsersQueryResponse']> = ResolversObject<{
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type UserResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -211,6 +236,7 @@ export type Resolvers<ContextType = MyContext> = ResolversObject<{
   GenerateTokenMutationResponse?: GenerateTokenMutationResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SearchedUsersQueryResponse?: SearchedUsersQueryResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;
 

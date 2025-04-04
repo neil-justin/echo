@@ -8,6 +8,7 @@ type User {
   lastName: String!
   createdAt: Date!
   updatedAt: Date!
+  avatar: String
 }
 
 type AddUserMutationResponse {
@@ -25,8 +26,15 @@ type GenerateTokenMutationResponse {
   user: User
 }
 
+type SearchedUsersQueryResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  users: [User]
+}
+
 type Query {
-  placeholder: String
+  searchedUsers(searchTerm: String!): SearchedUsersQueryResponse
 }
 
 type Mutation {
