@@ -1,14 +1,23 @@
 import Convo from '@/components/Convo';
 import Sidebar from '@/components/Sidebar';
-import { DummyUser } from '@/types';
+import { UserDB } from '@/types';
 import { useState } from 'react';
 
-const Chats = () => {
-  const [recipient, setRecipient] = useState<DummyUser | null>(null);
+interface ChatsProps {
+  loggedinUser: UserDB | null;
+}
+
+const Chats = ({ loggedinUser }: ChatsProps) => {
+  const [recipient, setRecipient] = useState<UserDB | null | undefined>(null);
+  
+  if (!loggedinUser) return;
 
   return (
     <div className='grid grid-cols-[30%_70%] h-screen bg-muted'>
-      <Sidebar updateRecipient={setRecipient} />
+      <Sidebar
+        updateRecipient={setRecipient}
+        loggedinUser={loggedinUser}
+      />
       {recipient ? (
         <Convo recipient={recipient} />
       ) : (

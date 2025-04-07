@@ -5,11 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { User } from 'firebase/auth';
+import { UserDB } from '@/types';
 import { NavLink } from 'react-router';
 
 interface VerificationReminderProps {
-  user: User | null;
+  user: UserDB | null;
 }
 
 const VerificationReminder = ({ user }: VerificationReminderProps) => {

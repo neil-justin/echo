@@ -12,14 +12,13 @@ import {
 } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { User } from 'firebase/auth';
 import { NavLink, useNavigate } from 'react-router';
 import { AuthFormInput } from '@/types';
 import { authFormSchema } from '@/utils/schema';
 
 interface AuthFormProps {
   authFor: 'Register' | 'Login';
-  authFn: (user: AuthFormInput) => Promise<User>;
+  authFn: (user: AuthFormInput) => Promise<void>;
 }
 
 const AuthForm = ({ authFor, authFn }: AuthFormProps) => {

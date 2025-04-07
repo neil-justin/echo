@@ -2,20 +2,20 @@ import AuthForm from '@/components/AuthForm';
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
-  User,
   validatePassword,
 } from 'firebase/auth';
 import { auth } from '@/firebase';
 import { FirebaseError } from 'firebase/app';
-import { gql, useMutation } from '@apollo/client';
-import { AuthFormInput } from '@/types';
+import { useMutation } from '@apollo/client';
+import { AuthFormInput, UserDB } from '@/types';
+import { gql } from '@/__generated__/gql';
 
 interface RegisterProps {
-  updateUser: React.Dispatch<React.SetStateAction<User | null>>;
+  updateUser: React.Dispatch<React.SetStateAction<UserDB | null>>;
 }
 
 const Register = ({ updateUser }: RegisterProps) => {
-  const ADD_USER = gql`
+  const ADD_USER = gql(`
     mutation AddUser(
       $uid: String!
       $email: String!
@@ -32,16 +32,19 @@ const Register = ({ updateUser }: RegisterProps) => {
         success
         message
         user {
-          uid
+          id
           email
+          firstName
+          lastName
+          avatar
         }
       }
     }
-  `;
+  `);
 
   const [addUser] = useMutation(ADD_USER);
 
-  const registerUser = async (user: AuthFormInput): Promise<User> => {
+  const registerUser = async (user: AuthFormInput) => {
     const { email, password, firstName, lastName } = user;
     const currentUser = auth.currentUser;
 
@@ -66,15 +69,16 @@ const Register = ({ updateUser }: RegisterProps) => {
       addUser({
         variables: {
           uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          firstName,
-          lastName,
+          email: firebaseUser.email as string,
+          firstName: firstName as string,
+          lastName: lastName as string,
+        },
+        onCompleted: (data) => {
+          if (data.addUser?.success && data.addUser.user) {
+            updateUser(data.addUser.user);
+          }
         },
       });
-
-      updateUser(firebaseUser);
-
-      return firebaseUser;
     } else {
       throw new FirebaseError(
         'auth/weak-password',

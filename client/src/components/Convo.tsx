@@ -5,7 +5,7 @@ import {
   MessageInput,
   ConversationHeader,
 } from '@chatscope/chat-ui-kit-react';
-import { DummyUser } from '@/types';
+import { DummyUser, UserDB } from '@/types';
 import { Ellipsis, Trash2 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -23,7 +23,7 @@ interface DummyMessage {
 }
 
 interface ConvoProps {
-  recipient: DummyUser;
+  recipient: UserDB;
 }
 
 const Convo = ({ recipient }: ConvoProps) => {

@@ -1,55 +1,56 @@
 import AuthForm from '@/components/AuthForm';
 import { auth } from '@/firebase';
-import { AuthFormInput } from '@/types';
-import { gql, useMutation } from '@apollo/client';
-import { signInWithEmailAndPassword, User } from 'firebase/auth';
+import { AuthFormInput, UserDB } from '@/types';
+import { useMutation } from '@apollo/client';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { gql } from '@/__generated__/gql';
 
-const Login = () => {
-  const GENERATE_TOKEN = gql`
+interface LoginProps {
+  updateUser: React.Dispatch<React.SetStateAction<UserDB | null>>;
+}
+
+const Login = ({ updateUser }: LoginProps) => {
+  const GENERATE_TOKEN = gql(`
     mutation GenerateToken($email: String!) {
       generateToken(email: $email) {
         code
         success
         message
         token
+        user {
+          id
+          email
+          firstName
+          lastName
+          avatar
+        }
       }
     }
-  `;
+  `);
 
   const [generateToken] = useMutation(GENERATE_TOKEN, {
-    update(
-      _cache,
-      result: {
-        data?: {
-          generateToken: {
-            success: boolean;
-            token: string;
-          };
-        };
-      }
-    ) {
-      if (result.data?.generateToken.success) {
+    update(_cache, result) {
+      if (result.data?.generateToken?.success) {
         localStorage.setItem('user-token', result.data.generateToken.token);
       }
     },
   });
 
-  const loginUser = async (user: AuthFormInput): Promise<User> => {
+  const loginUser = async (user: AuthFormInput) => {
     const { email, password } = user;
 
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    await signInWithEmailAndPassword(auth, email, password);
 
     generateToken({
       variables: {
         email,
       },
+      onCompleted: (data) => {
+        if (data.generateToken?.success && data.generateToken.user) {
+          updateUser(data.generateToken.user);
+        }
+      },
     });
-
-    return userCredential.user;
   };
 
   return (
