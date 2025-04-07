@@ -32,6 +32,10 @@ const Login = ({ updateUser }: LoginProps) => {
     update(_cache, result) {
       if (result.data?.generateToken?.success) {
         localStorage.setItem('user-token', result.data.generateToken.token);
+        localStorage.setItem(
+          'user-id',
+          result.data.generateToken.user?.id as string
+        );
       }
     },
   });

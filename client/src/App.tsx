@@ -9,12 +9,12 @@ import { UserDB } from './types';
 
 function App() {
   const [user, setUser] = useState<UserDB | null>(null);
-  
+
   return (
     <Routes>
       <Route
         path='auth'
-        element={<ProtectedWrapper />}
+        element={<ProtectedWrapper updateUser={setUser} />}
       >
         <Route
           path='register'
@@ -29,7 +29,7 @@ function App() {
           element={<Login updateUser={setUser} />}
         />
       </Route>
-      <Route element={<ProtectedWrapper />}>
+      <Route element={<ProtectedWrapper updateUser={setUser} />}>
         <Route
           path='chats/:id?'
           element={<Chats loggedinUser={user} />}
