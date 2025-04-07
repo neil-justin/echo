@@ -1,5 +1,5 @@
 import { MutationResolvers } from '../__generated__/resolvers-types';
-import User from '@/models/user';
+import { User } from '@/models/index';
 import { SECRET } from '@/utils/config';
 import jwt from 'jsonwebtoken';
 

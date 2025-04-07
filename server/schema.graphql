@@ -33,8 +33,29 @@ type SearchedUsersQueryResponse {
   users: [User]
 }
 
+type LastMessage {
+  senderId: String!
+  content: String!
+  timestamp: Date!
+}
+
+type Conversation {
+  id: String!
+  lastMessage: LastMessage!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type UserConversationsQueryResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  conversations: [Conversation]!
+}
+
 type Query {
   searchedUsers(searchTerm: String!): SearchedUsersQueryResponse
+  userConversations(userId: String!): UserConversationsQueryResponse
 }
 
 type Mutation {
