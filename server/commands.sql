@@ -5,6 +5,14 @@ SELECT * FROM migrations;
 
 SELECT * FROM users;
 
+SELECT * FROM conversations;
+
+SELECT * FROM user_conversations;
+
 DROP TABLE migrations;
 
 DROP TABLE users;
+
+DROP TABLE conversations;
+
+DROP TABLE user_conversations;

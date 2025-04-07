@@ -53,6 +53,4 @@ User.init(
   { sequelize, underscored: true, tableName: 'users', modelName: 'user' }
 );
 
-User.sync();
-
 export default User;
