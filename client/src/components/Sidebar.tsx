@@ -84,8 +84,15 @@ const Sidebar = ({ updateRecipient, loggedinUser }: SidebarProps) => {
   const handleSearchInputClick = () => {
     setOnSearchFocus(true);
     // No user is ""
-    // This will cause a rerender and display nothing
+    // Set searchTerm for the sake of clearing the search input
     setSearchTerm('');
+
+    // This will cause a rerender and display nothing
+    getSearchedUsers({
+      variables: {
+        searchTerm: '',
+      },
+    });
   };
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

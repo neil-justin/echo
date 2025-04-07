@@ -8,15 +8,19 @@ const queries: QueryResolvers = {
   searchedUsers: async (parent, args, contextValue, info) => {
     const { searchTerm } = args;
 
-    const users = await User.findAll({
-      where: {
-        [Op.or]: [
-          // With wildcard "%", case-insensitive search
-          { firstName: { [Op.iLike]: `%${searchTerm}%` } },
-          { lastName: { [Op.iLike]: `%${searchTerm}%` } },
-        ],
-      },
-    });
+    let users: User[] = [];
+
+    if (searchTerm.trim().length > 0) {
+      users = await User.findAll({
+        where: {
+          [Op.or]: [
+            // With wildcard "%", case-insensitive search
+            { firstName: { [Op.iLike]: `%${searchTerm}%` } },
+            { lastName: { [Op.iLike]: `%${searchTerm}%` } },
+          ],
+        },
+      });
+    }
 
     return {
       code: '200',
