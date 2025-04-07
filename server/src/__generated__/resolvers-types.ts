@@ -31,6 +31,7 @@ export type Conversation = {
   createdAt: Scalars['Date']['output'];
   id: Scalars['String']['output'];
   lastMessage: LastMessage;
+  participants?: Maybe<Array<Maybe<User>>>;
   updatedAt: Scalars['Date']['output'];
 };
 
@@ -227,6 +228,7 @@ export type ConversationResolvers<ContextType = MyContext, ParentType extends Re
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastMessage?: Resolver<ResolversTypes['LastMessage'], ParentType, ContextType>;
+  participants?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

@@ -42,6 +42,7 @@ type LastMessage {
 type Conversation {
   id: String!
   lastMessage: LastMessage!
+  participants: [User]
   createdAt: Date!
   updatedAt: Date!
 }
