@@ -30,7 +30,7 @@ export type Conversation = {
   createdAt: Scalars['Date']['output'];
   id: Scalars['String']['output'];
   lastMessage: LastMessage;
-  participants: Array<Maybe<User>>;
+  participants?: Maybe<Array<Maybe<User>>>;
   updatedAt: Scalars['Date']['output'];
 };
 
@@ -125,7 +125,7 @@ export type GetUserConversationsQueryVariables = Exact<{
 }>;
 
 
-export type GetUserConversationsQuery = { __typename?: 'Query', userConversations?: { __typename?: 'UserConversationsQueryResponse', conversations: Array<{ __typename?: 'Conversation', id: string, updatedAt: any, lastMessage: { __typename?: 'LastMessage', senderId: string, content: string, timestamp: any }, participants: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, avatar?: string | null } | null> } | null> } | null };
+export type GetUserConversationsQuery = { __typename?: 'Query', userConversations?: { __typename?: 'UserConversationsQueryResponse', conversations: Array<{ __typename?: 'Conversation', id: string, updatedAt: any, lastMessage: { __typename?: 'LastMessage', senderId: string, content: string, timestamp: any }, participants?: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, avatar?: string | null } | null> | null } | null> } | null };
 
 export type GenerateTokenMutationVariables = Exact<{
   email: Scalars['String']['input'];

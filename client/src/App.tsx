@@ -6,9 +6,19 @@ import Login from '@/routes/Login';
 import ProtectedWrapper from './components/ProtectedWrapper';
 import Chats from '@/routes/Chats';
 import { UserDB } from './types';
+import { useEffect } from 'react';
+import { socket } from '@/socket';
 
 function App() {
   const [user, setUser] = useState<UserDB | null>(null);
+
+  useEffect(() => {
+    socket.connect();
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <Routes>

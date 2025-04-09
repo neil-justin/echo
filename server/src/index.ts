@@ -7,6 +7,7 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import http from 'http';
 import resolvers from '@/resolvers/index';
 import { readFileSync } from 'fs';
+import { Server } from 'socket.io';
 
 const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 
@@ -20,6 +21,21 @@ const server = new ApolloServer<MyContext>({
   typeDefs,
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+});
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:5173',
+  },
+});
+
+io.on('connection', (socket) => {
+  console.log('A user connected. Session:', socket.id);
+
+  socket.on('disconnect', (reason) => {
+    console.log('A user disconnected. Reason:', reason);
+    console.log('-----');
+  });
 });
 
 await server.start();
