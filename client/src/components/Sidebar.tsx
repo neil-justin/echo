@@ -104,6 +104,12 @@ const Sidebar = ({ updateRecipient, loggedinUser }: SidebarProps) => {
     setSearchTerm('');
   };
 
+  const handleClickOnSearchUser = (user: UserDB) => {
+    updateRecipient(user);
+    setOnSearchFocus(false);
+    setSearchTerm('');
+  };
+
   return (
     <Tabs
       defaultValue='chats'
@@ -162,6 +168,7 @@ const Sidebar = ({ updateRecipient, loggedinUser }: SidebarProps) => {
                       })
                     }
                     key={user.id}
+                    onClick={() => handleClickOnSearchUser(user)}
                   >
                     <Avatar className='size-12'>
                       <AvatarImage
@@ -184,15 +191,10 @@ const Sidebar = ({ updateRecipient, loggedinUser }: SidebarProps) => {
                 );
               })
             : userConverstations.map((conversation) => {
-                // const recipient =
-                //   dummyLoggedInUser.id === conversation.participants[0].id
-                // ? conversation.participants[1]
-                // : conversation.participants[0];
-
                 const recipient =
-                  loggedinUser.id === conversation?.participants[0]?.id
+                  loggedinUser.id === conversation?.participants?.[0]?.id
                     ? conversation.participants[1]
-                    : conversation?.participants[0];
+                    : conversation?.participants?.[0];
 
                 return (
                   <NavLink
