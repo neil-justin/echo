@@ -37,10 +37,9 @@ const queries: QueryResolvers = {
         {
           model: User,
           as: 'participants',
-          through: { attributes: [] },
+          where: { id: userId },
         },
       ],
-      where: { id: userId },
     });
 
     return {

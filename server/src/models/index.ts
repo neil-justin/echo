@@ -10,6 +10,7 @@ User.belongsToMany(Conversation, {
 
 Conversation.belongsToMany(User, {
   through: UserConversations,
+  as: 'participants',
 });
 
 User.hasMany(Message, {
