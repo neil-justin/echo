@@ -47,11 +47,23 @@ type Conversation {
   updatedAt: Date!
 }
 
+type Message {
+  id: String!
+}
+
 type UserConversationsQueryResponse {
   code: String!
   success: Boolean!
   message: String!
   conversations: [Conversation]!
+}
+
+type SendMessageMutationResponse {
+  code: String!
+  success: Boolean!
+  httpMessage: String!
+  message: Message!
+  conversation: Conversation!
 }
 
 type Query {
@@ -67,4 +79,9 @@ type Mutation {
     lastName: String!
   ): AddUserMutationResponse
   generateToken(email: String!): GenerateTokenMutationResponse
+  sendMessage(
+    senderId: String!
+    recipientId: String!
+    message: String!
+  ): SendMessageMutationResponse!
 }

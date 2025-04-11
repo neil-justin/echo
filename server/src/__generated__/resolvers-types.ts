@@ -51,10 +51,16 @@ export type LastMessage = {
   timestamp: Scalars['Date']['output'];
 };
 
+export type Message = {
+  __typename?: 'Message';
+  id: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addUser?: Maybe<AddUserMutationResponse>;
   generateToken?: Maybe<GenerateTokenMutationResponse>;
+  sendMessage: SendMessageMutationResponse;
 };
 
 
@@ -68,6 +74,13 @@ export type MutationAddUserArgs = {
 
 export type MutationGenerateTokenArgs = {
   email: Scalars['String']['input'];
+};
+
+
+export type MutationSendMessageArgs = {
+  message: Scalars['String']['input'];
+  recipientId: Scalars['String']['input'];
+  senderId: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -92,6 +105,15 @@ export type SearchedUsersQueryResponse = {
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
   users?: Maybe<Array<Maybe<User>>>;
+};
+
+export type SendMessageMutationResponse = {
+  __typename?: 'SendMessageMutationResponse';
+  code: Scalars['String']['output'];
+  conversation: Conversation;
+  httpMessage: Scalars['String']['output'];
+  message: Message;
+  success: Scalars['Boolean']['output'];
 };
 
 export type User = {
@@ -192,9 +214,11 @@ export type ResolversTypes = ResolversObject<{
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   GenerateTokenMutationResponse: ResolverTypeWrapper<GenerateTokenMutationResponse>;
   LastMessage: ResolverTypeWrapper<LastMessage>;
+  Message: ResolverTypeWrapper<Message>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   SearchedUsersQueryResponse: ResolverTypeWrapper<SearchedUsersQueryResponse>;
+  SendMessageMutationResponse: ResolverTypeWrapper<SendMessageMutationResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
   UserConversationsQueryResponse: ResolverTypeWrapper<UserConversationsQueryResponse>;
@@ -208,9 +232,11 @@ export type ResolversParentTypes = ResolversObject<{
   Date: Scalars['Date']['output'];
   GenerateTokenMutationResponse: GenerateTokenMutationResponse;
   LastMessage: LastMessage;
+  Message: Message;
   Mutation: {};
   Query: {};
   SearchedUsersQueryResponse: SearchedUsersQueryResponse;
+  SendMessageMutationResponse: SendMessageMutationResponse;
   String: Scalars['String']['output'];
   User: User;
   UserConversationsQueryResponse: UserConversationsQueryResponse;
@@ -253,9 +279,15 @@ export type LastMessageResolvers<ContextType = MyContext, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type MessageResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addUser?: Resolver<Maybe<ResolversTypes['AddUserMutationResponse']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'email' | 'firstName' | 'lastName' | 'uid'>>;
   generateToken?: Resolver<Maybe<ResolversTypes['GenerateTokenMutationResponse']>, ParentType, ContextType, RequireFields<MutationGenerateTokenArgs, 'email'>>;
+  sendMessage?: Resolver<ResolversTypes['SendMessageMutationResponse'], ParentType, ContextType, RequireFields<MutationSendMessageArgs, 'message' | 'recipientId' | 'senderId'>>;
 }>;
 
 export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
@@ -268,6 +300,15 @@ export type SearchedUsersQueryResponseResolvers<ContextType = MyContext, ParentT
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type SendMessageMutationResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['SendMessageMutationResponse'] = ResolversParentTypes['SendMessageMutationResponse']> = ResolversObject<{
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  conversation?: Resolver<ResolversTypes['Conversation'], ParentType, ContextType>;
+  httpMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['Message'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -297,9 +338,11 @@ export type Resolvers<ContextType = MyContext> = ResolversObject<{
   Date?: GraphQLScalarType;
   GenerateTokenMutationResponse?: GenerateTokenMutationResponseResolvers<ContextType>;
   LastMessage?: LastMessageResolvers<ContextType>;
+  Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SearchedUsersQueryResponse?: SearchedUsersQueryResponseResolvers<ContextType>;
+  SendMessageMutationResponse?: SendMessageMutationResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserConversationsQueryResponse?: UserConversationsQueryResponseResolvers<ContextType>;
 }>;

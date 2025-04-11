@@ -1,26 +1,33 @@
 import {
+  Association,
+  BelongsToManyAddAssociationMixin,
   CreationOptional,
   DataTypes,
   InferAttributes,
   InferCreationAttributes,
   Model,
+  NonAttribute,
 } from 'sequelize';
 import { sequelize } from '@/utils/db';
-
-interface LastMessage {
-  senderId: string;
-  content: string;
-  timestamp: Date;
-}
+import { LastMessage } from '@/types';
+import User from '@/models/user';
 
 class Conversation extends Model<
-  InferAttributes<Conversation>,
-  InferCreationAttributes<Conversation>
+  InferAttributes<Conversation, { omit: 'users' }>,
+  InferCreationAttributes<Conversation, { omit: 'users' }>
 > {
   declare id: CreationOptional<string>;
   declare lastMessage: LastMessage;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+
+  declare addUser: BelongsToManyAddAssociationMixin<User, User['id']>;
+
+  declare users?: NonAttribute<User[]>;
+
+  declare static associations: {
+    users: Association<Conversation, User>;
+  };
 }
 
 Conversation.init(
