@@ -9,7 +9,7 @@ import {
   NonAttribute,
 } from 'sequelize';
 import { sequelize } from '@/utils/db';
-import { LastMessage } from '@/types';
+import { LastMessage } from '@repoRoot/types';
 import User from '@/models/user';
 
 class Conversation extends Model<

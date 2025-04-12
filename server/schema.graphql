@@ -30,7 +30,7 @@ type SearchedUsersQueryResponse {
   code: String!
   success: Boolean!
   message: String!
-  users: [User]
+  users: [User!]!
 }
 
 type LastMessage {
@@ -42,7 +42,7 @@ type LastMessage {
 type Conversation {
   id: String!
   lastMessage: LastMessage!
-  participants: [User]
+  participants: [User!]
   createdAt: Date!
   updatedAt: Date!
 }
@@ -55,7 +55,7 @@ type UserConversationsQueryResponse {
   code: String!
   success: Boolean!
   message: String!
-  conversations: [Conversation]!
+  conversations: [Conversation!]!
 }
 
 type SendMessageMutationResponse {
@@ -67,8 +67,8 @@ type SendMessageMutationResponse {
 }
 
 type Query {
-  searchedUsers(searchTerm: String!): SearchedUsersQueryResponse
-  userConversations(userId: String!): UserConversationsQueryResponse
+  searchedUsers(searchTerm: String!): SearchedUsersQueryResponse!
+  userConversations(userId: String!): UserConversationsQueryResponse!
 }
 
 type Mutation {

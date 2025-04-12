@@ -1,5 +1,5 @@
 import { MutationResolvers } from '../__generated__/resolvers-types';
-import { LastMessage } from '@/types';
+import { LastMessage } from '@repoRoot/types';
 import { SECRET } from '@/utils/config';
 import jwt from 'jsonwebtoken';
 import '@/models/index';

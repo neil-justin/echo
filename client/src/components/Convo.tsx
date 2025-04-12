@@ -14,6 +14,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Archive } from 'lucide-react';
+import { useMutation } from '@apollo/client';
+import { gql } from '@/__generated__/gql';
+import { useNavigate } from 'react-router';
 
 interface DummyMessage {
   id: number;
@@ -24,9 +27,25 @@ interface DummyMessage {
 
 interface ConvoProps {
   recipient: UserDB;
+  loggedinUser: UserDB;
 }
 
-const Convo = ({ recipient }: ConvoProps) => {
+const SEND_MESSAGE = gql(`
+  mutation SendMessage($senderId: String!, $recipientId: String!, $message: String!) {
+    sendMessage(senderId: $senderId, recipientId: $recipientId, message: $message) {
+      message {
+        id
+      }
+      conversation {
+        id
+      }
+    }
+  }
+`);
+
+const Convo = ({ recipient, loggedinUser }: ConvoProps) => {
+  const [sendMessage] = useMutation(SEND_MESSAGE);
+
   const dummyLoggedInUser: DummyUser = {
     id: 1,
     firstName: 'Neil Justin',
@@ -73,6 +92,21 @@ const Convo = ({ recipient }: ConvoProps) => {
       [dummyLoggedInUser.id, recipient.id].includes(userId)
     )
   );
+
+  const navigate = useNavigate();
+
+  const handleSendMessage = (message: string) => {
+    sendMessage({
+      variables: {
+        senderId: loggedinUser.id,
+        recipientId: recipient.id,
+        message,
+      },
+      onCompleted: ({ sendMessage }) => {
+        navigate(`/chats/${sendMessage.conversation.id}`);
+      },
+    });
+  };
 
   return (
     <ChatContainer className='rounded-3xl'>
@@ -123,6 +157,9 @@ const Convo = ({ recipient }: ConvoProps) => {
       <MessageInput
         attachButton={false}
         placeholder='Type message here'
+        onSend={(...onSendArgs) =>
+          handleSendMessage(onSendArgs[1] /* Get MessageInput textContent */)
+        }
       />
     </ChatContainer>
   );

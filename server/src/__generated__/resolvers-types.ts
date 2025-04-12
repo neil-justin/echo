@@ -31,7 +31,7 @@ export type Conversation = {
   createdAt: Scalars['Date']['output'];
   id: Scalars['String']['output'];
   lastMessage: LastMessage;
-  participants?: Maybe<Array<Maybe<User>>>;
+  participants?: Maybe<Array<User>>;
   updatedAt: Scalars['Date']['output'];
 };
 
@@ -85,8 +85,8 @@ export type MutationSendMessageArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  searchedUsers?: Maybe<SearchedUsersQueryResponse>;
-  userConversations?: Maybe<UserConversationsQueryResponse>;
+  searchedUsers: SearchedUsersQueryResponse;
+  userConversations: UserConversationsQueryResponse;
 };
 
 
@@ -104,7 +104,7 @@ export type SearchedUsersQueryResponse = {
   code: Scalars['String']['output'];
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
-  users?: Maybe<Array<Maybe<User>>>;
+  users: Array<User>;
 };
 
 export type SendMessageMutationResponse = {
@@ -131,7 +131,7 @@ export type User = {
 export type UserConversationsQueryResponse = {
   __typename?: 'UserConversationsQueryResponse';
   code: Scalars['String']['output'];
-  conversations: Array<Maybe<Conversation>>;
+  conversations: Array<Conversation>;
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
 };
@@ -254,7 +254,7 @@ export type ConversationResolvers<ContextType = MyContext, ParentType extends Re
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastMessage?: Resolver<ResolversTypes['LastMessage'], ParentType, ContextType>;
-  participants?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  participants?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -291,15 +291,15 @@ export type MutationResolvers<ContextType = MyContext, ParentType extends Resolv
 }>;
 
 export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  searchedUsers?: Resolver<Maybe<ResolversTypes['SearchedUsersQueryResponse']>, ParentType, ContextType, RequireFields<QuerySearchedUsersArgs, 'searchTerm'>>;
-  userConversations?: Resolver<Maybe<ResolversTypes['UserConversationsQueryResponse']>, ParentType, ContextType, RequireFields<QueryUserConversationsArgs, 'userId'>>;
+  searchedUsers?: Resolver<ResolversTypes['SearchedUsersQueryResponse'], ParentType, ContextType, RequireFields<QuerySearchedUsersArgs, 'searchTerm'>>;
+  userConversations?: Resolver<ResolversTypes['UserConversationsQueryResponse'], ParentType, ContextType, RequireFields<QueryUserConversationsArgs, 'userId'>>;
 }>;
 
 export type SearchedUsersQueryResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['SearchedUsersQueryResponse'] = ResolversParentTypes['SearchedUsersQueryResponse']> = ResolversObject<{
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -326,7 +326,7 @@ export type UserResolvers<ContextType = MyContext, ParentType extends ResolversP
 
 export type UserConversationsQueryResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['UserConversationsQueryResponse'] = ResolversParentTypes['UserConversationsQueryResponse']> = ResolversObject<{
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  conversations?: Resolver<Array<Maybe<ResolversTypes['Conversation']>>, ParentType, ContextType>;
+  conversations?: Resolver<Array<ResolversTypes['Conversation']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

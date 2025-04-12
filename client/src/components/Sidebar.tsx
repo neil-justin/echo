@@ -40,7 +40,6 @@ const GET_USER_CONVERSATIONS = gql(`
           lastName
           avatar
         }
-        updatedAt
       }
     }
   }`);
@@ -191,10 +190,20 @@ const Sidebar = ({ updateRecipient, loggedinUser }: SidebarProps) => {
                 );
               })
             : userConverstations.map((conversation) => {
-                const recipient =
-                  loggedinUser.id === conversation?.participants?.[0]?.id
-                    ? conversation.participants[1]
-                    : conversation?.participants?.[0];
+                let recipient: UserDB;
+                const participants = conversation.participants ?? [];
+
+                if (participants.length > 1) {
+                  recipient =
+                    loggedinUser.id === participants[0].id
+                      ? participants[1]
+                      : participants[0];
+                }
+                // A conversation can have at least one participant
+                // i.e., when the user send a message to theirselves
+                else {
+                  recipient = participants[0];
+                }
 
                 return (
                   <NavLink

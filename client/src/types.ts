@@ -13,10 +13,7 @@ export interface DummyUser {
 export interface UserDB {
   __typename?: 'User';
   id: string;
-  uid?: string;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  firstName: string;
+  lastName: string;
+  avatar?: string | null;
 }

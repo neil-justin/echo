@@ -19,7 +19,7 @@ const Chats = ({ loggedinUser }: ChatsProps) => {
         loggedinUser={loggedinUser}
       />
       {recipient ? (
-        <Convo recipient={recipient} />
+        <Convo recipient={recipient} loggedinUser={loggedinUser} />
       ) : (
         <div className='w-full h-full flex items-center justify-center'>
           <h2 className='font-bold text-2xl'>Welcome to Echo</h2>
