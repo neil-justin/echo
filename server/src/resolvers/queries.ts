@@ -49,6 +49,18 @@ const queries: QueryResolvers = {
       conversations,
     };
   },
+  user: async (parent, args, contextValue, info) => {
+    const { userId } = args;
+
+    const user = (await User.findByPk(userId)) as User;
+
+    return {
+      code: '200',
+      success: true,
+      message: 'User is queried succssfully',
+      user,
+    };
+  },
 };
 
 export default queries;

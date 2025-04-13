@@ -9,7 +9,7 @@ import { UserDB } from '@/types';
 import { NavLink } from 'react-router';
 
 interface VerificationReminderProps {
-  user: UserDB | null;
+  user: UserDB | null | undefined;
 }
 
 const VerificationReminder = ({ user }: VerificationReminderProps) => {

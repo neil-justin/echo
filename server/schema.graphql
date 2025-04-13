@@ -58,6 +58,13 @@ type UserConversationsQueryResponse {
   conversations: [Conversation!]!
 }
 
+type UserQueryResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  user: User!
+}
+
 type SendMessageMutationResponse {
   code: String!
   success: Boolean!
@@ -69,6 +76,7 @@ type SendMessageMutationResponse {
 type Query {
   searchedUsers(searchTerm: String!): SearchedUsersQueryResponse!
   userConversations(userId: String!): UserConversationsQueryResponse!
+  user(userId: String!): UserQueryResponse!
 }
 
 type Mutation {

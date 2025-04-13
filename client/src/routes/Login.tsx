@@ -6,7 +6,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { gql } from '@/__generated__/gql';
 
 interface LoginProps {
-  updateUser: React.Dispatch<React.SetStateAction<UserDB | null>>;
+  updateUser: React.Dispatch<React.SetStateAction<UserDB | null | undefined>>;
 }
 
 const Login = ({ updateUser }: LoginProps) => {

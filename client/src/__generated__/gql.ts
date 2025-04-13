@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 type Documents = {
     "\n  mutation SendMessage($senderId: String!, $recipientId: String!, $message: String!) {\n    sendMessage(senderId: $senderId, recipientId: $recipientId, message: $message) {\n      message {\n        id\n      }\n      conversation {\n        id\n      }\n    }\n  }\n": typeof types.SendMessageDocument,
+    "\n  query GetUser($userId: String!) {\n    user(userId: $userId) {\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }  \n": typeof types.GetUserDocument,
     "\n  query GetSearchedUsers($searchTerm: String!) {\n    searchedUsers(searchTerm: $searchTerm) {\n      users {\n        id\n        firstName\n        lastName\n        avatar\n      }\n    }\n  }\n": typeof types.GetSearchedUsersDocument,
     "\n  query GetUserConversations($userId: String!) {\n    userConversations(userId: $userId) {\n      conversations {\n        id\n        lastMessage {\n          senderId\n          content\n          timestamp\n        }\n        participants {\n          id\n          firstName\n          lastName\n          avatar\n        }\n      }\n    }\n  }": typeof types.GetUserConversationsDocument,
     "\n    mutation GenerateToken($email: String!) {\n      generateToken(email: $email) {\n        code\n        success\n        message\n        token\n        user {\n          id\n          email\n          firstName\n          lastName\n          avatar\n        }\n      }\n    }\n  ": typeof types.GenerateTokenDocument,
@@ -22,6 +23,7 @@ type Documents = {
 };
 const documents: Documents = {
     "\n  mutation SendMessage($senderId: String!, $recipientId: String!, $message: String!) {\n    sendMessage(senderId: $senderId, recipientId: $recipientId, message: $message) {\n      message {\n        id\n      }\n      conversation {\n        id\n      }\n    }\n  }\n": types.SendMessageDocument,
+    "\n  query GetUser($userId: String!) {\n    user(userId: $userId) {\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }  \n": types.GetUserDocument,
     "\n  query GetSearchedUsers($searchTerm: String!) {\n    searchedUsers(searchTerm: $searchTerm) {\n      users {\n        id\n        firstName\n        lastName\n        avatar\n      }\n    }\n  }\n": types.GetSearchedUsersDocument,
     "\n  query GetUserConversations($userId: String!) {\n    userConversations(userId: $userId) {\n      conversations {\n        id\n        lastMessage {\n          senderId\n          content\n          timestamp\n        }\n        participants {\n          id\n          firstName\n          lastName\n          avatar\n        }\n      }\n    }\n  }": types.GetUserConversationsDocument,
     "\n    mutation GenerateToken($email: String!) {\n      generateToken(email: $email) {\n        code\n        success\n        message\n        token\n        user {\n          id\n          email\n          firstName\n          lastName\n          avatar\n        }\n      }\n    }\n  ": types.GenerateTokenDocument,
@@ -46,6 +48,10 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation SendMessage($senderId: String!, $recipientId: String!, $message: String!) {\n    sendMessage(senderId: $senderId, recipientId: $recipientId, message: $message) {\n      message {\n        id\n      }\n      conversation {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation SendMessage($senderId: String!, $recipientId: String!, $message: String!) {\n    sendMessage(senderId: $senderId, recipientId: $recipientId, message: $message) {\n      message {\n        id\n      }\n      conversation {\n        id\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query GetUser($userId: String!) {\n    user(userId: $userId) {\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }  \n"): (typeof documents)["\n  query GetUser($userId: String!) {\n    user(userId: $userId) {\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }  \n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

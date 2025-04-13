@@ -86,12 +86,18 @@ export type MutationSendMessageArgs = {
 export type Query = {
   __typename?: 'Query';
   searchedUsers: SearchedUsersQueryResponse;
+  user: UserQueryResponse;
   userConversations: UserConversationsQueryResponse;
 };
 
 
 export type QuerySearchedUsersArgs = {
   searchTerm: Scalars['String']['input'];
+};
+
+
+export type QueryUserArgs = {
+  userId: Scalars['String']['input'];
 };
 
 
@@ -134,6 +140,14 @@ export type UserConversationsQueryResponse = {
   conversations: Array<Conversation>;
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
+};
+
+export type UserQueryResponse = {
+  __typename?: 'UserQueryResponse';
+  code: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+  user: User;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -222,6 +236,7 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
   UserConversationsQueryResponse: ResolverTypeWrapper<UserConversationsQueryResponse>;
+  UserQueryResponse: ResolverTypeWrapper<UserQueryResponse>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -240,6 +255,7 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']['output'];
   User: User;
   UserConversationsQueryResponse: UserConversationsQueryResponse;
+  UserQueryResponse: UserQueryResponse;
 }>;
 
 export type AddUserMutationResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['AddUserMutationResponse'] = ResolversParentTypes['AddUserMutationResponse']> = ResolversObject<{
@@ -292,6 +308,7 @@ export type MutationResolvers<ContextType = MyContext, ParentType extends Resolv
 
 export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   searchedUsers?: Resolver<ResolversTypes['SearchedUsersQueryResponse'], ParentType, ContextType, RequireFields<QuerySearchedUsersArgs, 'searchTerm'>>;
+  user?: Resolver<ResolversTypes['UserQueryResponse'], ParentType, ContextType, RequireFields<QueryUserArgs, 'userId'>>;
   userConversations?: Resolver<ResolversTypes['UserConversationsQueryResponse'], ParentType, ContextType, RequireFields<QueryUserConversationsArgs, 'userId'>>;
 }>;
 
@@ -332,6 +349,14 @@ export type UserConversationsQueryResponseResolvers<ContextType = MyContext, Par
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type UserQueryResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['UserQueryResponse'] = ResolversParentTypes['UserQueryResponse']> = ResolversObject<{
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type Resolvers<ContextType = MyContext> = ResolversObject<{
   AddUserMutationResponse?: AddUserMutationResponseResolvers<ContextType>;
   Conversation?: ConversationResolvers<ContextType>;
@@ -345,5 +370,6 @@ export type Resolvers<ContextType = MyContext> = ResolversObject<{
   SendMessageMutationResponse?: SendMessageMutationResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserConversationsQueryResponse?: UserConversationsQueryResponseResolvers<ContextType>;
+  UserQueryResponse?: UserQueryResponseResolvers<ContextType>;
 }>;
 

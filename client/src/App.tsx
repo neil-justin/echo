@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { socket } from '@/socket';
 
 function App() {
-  const [user, setUser] = useState<UserDB | null>(null);
+  const [user, setUser] = useState<UserDB | null | undefined>(null);
 
   useEffect(() => {
     socket.connect();

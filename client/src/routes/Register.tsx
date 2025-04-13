@@ -11,7 +11,7 @@ import { AuthFormInput, UserDB } from '@/types';
 import { gql } from '@/__generated__/gql';
 
 interface RegisterProps {
-  updateUser: React.Dispatch<React.SetStateAction<UserDB | null>>;
+  updateUser: React.Dispatch<React.SetStateAction<UserDB | null | undefined>>;
 }
 
 const Register = ({ updateUser }: RegisterProps) => {

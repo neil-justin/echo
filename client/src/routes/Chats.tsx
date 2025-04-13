@@ -4,12 +4,12 @@ import { UserDB } from '@/types';
 import { useState } from 'react';
 
 interface ChatsProps {
-  loggedinUser: UserDB | null;
+  loggedinUser: UserDB | null | undefined;
 }
 
 const Chats = ({ loggedinUser }: ChatsProps) => {
   const [recipient, setRecipient] = useState<UserDB | null | undefined>(null);
-  
+
   if (!loggedinUser) return;
 
   return (
@@ -19,7 +19,10 @@ const Chats = ({ loggedinUser }: ChatsProps) => {
         loggedinUser={loggedinUser}
       />
       {recipient ? (
-        <Convo recipient={recipient} loggedinUser={loggedinUser} />
+        <Convo
+          recipient={recipient}
+          loggedinUser={loggedinUser}
+        />
       ) : (
         <div className='w-full h-full flex items-center justify-center'>
           <h2 className='font-bold text-2xl'>Welcome to Echo</h2>
