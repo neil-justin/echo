@@ -2,6 +2,7 @@ import Convo from '@/components/Convo';
 import Sidebar from '@/components/Sidebar';
 import { UserDB } from '@/types';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 
 interface ChatsProps {
   loggedinUser: UserDB | null | undefined;
@@ -10,6 +11,8 @@ interface ChatsProps {
 const Chats = ({ loggedinUser }: ChatsProps) => {
   const [recipient, setRecipient] = useState<UserDB | null | undefined>(null);
   const [conversationId, setConversationId] = useState<string | null>(null);
+
+  const location = useLocation();
 
   useEffect(() => {
     const storedConversationId = localStorage.getItem('conversation-id');
@@ -40,7 +43,9 @@ const Chats = ({ loggedinUser }: ChatsProps) => {
         loggedinUser={loggedinUser}
         updateConversationId={setConversationId}
       />
-      {recipient && conversationId ? (
+      {recipient &&
+      conversationId &&
+      location.pathname.split('/')[2] === conversationId ? (
         <Convo
           recipient={recipient}
           loggedinUser={loggedinUser}
