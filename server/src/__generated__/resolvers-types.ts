@@ -35,6 +35,14 @@ export type Conversation = {
   updatedAt: Scalars['Date']['output'];
 };
 
+export type ConversationMessagesQueryResponse = {
+  __typename?: 'ConversationMessagesQueryResponse';
+  code: Scalars['String']['output'];
+  httpMessage: Scalars['String']['output'];
+  messages: Array<Message>;
+  success: Scalars['Boolean']['output'];
+};
+
 export type GenerateTokenMutationResponse = {
   __typename?: 'GenerateTokenMutationResponse';
   code: Scalars['String']['output'];
@@ -53,7 +61,10 @@ export type LastMessage = {
 
 export type Message = {
   __typename?: 'Message';
+  content: Scalars['String']['output'];
   id: Scalars['String']['output'];
+  recipientId: Scalars['String']['output'];
+  senderId: Scalars['String']['output'];
 };
 
 export type Mutation = {
@@ -85,9 +96,15 @@ export type MutationSendMessageArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  conversationMessages: ConversationMessagesQueryResponse;
   searchedUsers: SearchedUsersQueryResponse;
   user: UserQueryResponse;
   userConversations: UserConversationsQueryResponse;
+};
+
+
+export type QueryConversationMessagesArgs = {
+  conversationId: Scalars['String']['input'];
 };
 
 
@@ -225,6 +242,7 @@ export type ResolversTypes = ResolversObject<{
   AddUserMutationResponse: ResolverTypeWrapper<AddUserMutationResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Conversation: ResolverTypeWrapper<Conversation>;
+  ConversationMessagesQueryResponse: ResolverTypeWrapper<ConversationMessagesQueryResponse>;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   GenerateTokenMutationResponse: ResolverTypeWrapper<GenerateTokenMutationResponse>;
   LastMessage: ResolverTypeWrapper<LastMessage>;
@@ -244,6 +262,7 @@ export type ResolversParentTypes = ResolversObject<{
   AddUserMutationResponse: AddUserMutationResponse;
   Boolean: Scalars['Boolean']['output'];
   Conversation: Conversation;
+  ConversationMessagesQueryResponse: ConversationMessagesQueryResponse;
   Date: Scalars['Date']['output'];
   GenerateTokenMutationResponse: GenerateTokenMutationResponse;
   LastMessage: LastMessage;
@@ -275,6 +294,14 @@ export type ConversationResolvers<ContextType = MyContext, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ConversationMessagesQueryResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['ConversationMessagesQueryResponse'] = ResolversParentTypes['ConversationMessagesQueryResponse']> = ResolversObject<{
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  httpMessage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  messages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
@@ -296,7 +323,10 @@ export type LastMessageResolvers<ContextType = MyContext, ParentType extends Res
 }>;
 
 export type MessageResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = ResolversObject<{
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  recipientId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  senderId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -307,6 +337,7 @@ export type MutationResolvers<ContextType = MyContext, ParentType extends Resolv
 }>;
 
 export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  conversationMessages?: Resolver<ResolversTypes['ConversationMessagesQueryResponse'], ParentType, ContextType, RequireFields<QueryConversationMessagesArgs, 'conversationId'>>;
   searchedUsers?: Resolver<ResolversTypes['SearchedUsersQueryResponse'], ParentType, ContextType, RequireFields<QuerySearchedUsersArgs, 'searchTerm'>>;
   user?: Resolver<ResolversTypes['UserQueryResponse'], ParentType, ContextType, RequireFields<QueryUserArgs, 'userId'>>;
   userConversations?: Resolver<ResolversTypes['UserConversationsQueryResponse'], ParentType, ContextType, RequireFields<QueryUserConversationsArgs, 'userId'>>;
@@ -360,6 +391,7 @@ export type UserQueryResponseResolvers<ContextType = MyContext, ParentType exten
 export type Resolvers<ContextType = MyContext> = ResolversObject<{
   AddUserMutationResponse?: AddUserMutationResponseResolvers<ContextType>;
   Conversation?: ConversationResolvers<ContextType>;
+  ConversationMessagesQueryResponse?: ConversationMessagesQueryResponseResolvers<ContextType>;
   Date?: GraphQLScalarType;
   GenerateTokenMutationResponse?: GenerateTokenMutationResponseResolvers<ContextType>;
   LastMessage?: LastMessageResolvers<ContextType>;

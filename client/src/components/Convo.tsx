@@ -5,7 +5,7 @@ import {
   MessageInput,
   ConversationHeader,
 } from '@chatscope/chat-ui-kit-react';
-import { DummyUser, UserDB } from '@/types';
+import { UserDB } from '@/types';
 import { Ellipsis, Trash2 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -14,21 +14,23 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Archive } from 'lucide-react';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { gql } from '@/__generated__/gql';
 import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
 
-interface DummyMessage {
-  id: number;
-  senderId: number;
-  recipientId: number;
+interface MessageData {
+  __typename?: string;
+  id: string;
+  senderId: string;
+  recipientId: string;
   content: string;
 }
 
 interface ConvoProps {
   recipient: UserDB;
   loggedinUser: UserDB;
-  conversationId: string | null;
+  conversationId: string;
 }
 
 const SEND_MESSAGE = gql(`
@@ -44,55 +46,36 @@ const SEND_MESSAGE = gql(`
   }
 `);
 
+const GET_CONVERSATION_MESSAGES = gql(`
+  query GetConversationMessages($conversationId: String!) {
+    conversationMessages(conversationId: $conversationId) {
+      messages {
+        id
+        senderId
+        recipientId
+        content
+      }
+    }
+  }  
+`);
+
 const Convo = ({ recipient, loggedinUser, conversationId }: ConvoProps) => {
   const [sendMessage] = useMutation(SEND_MESSAGE);
 
-  const dummyLoggedInUser: DummyUser = {
-    id: 1,
-    firstName: 'Neil Justin',
-    lastName: 'Mallari',
-  };
-
-  const dummyMessages: DummyMessage[] = [
+  const { data: messagesData, called: messagesQueryCalled } = useQuery(
+    GET_CONVERSATION_MESSAGES,
     {
-      id: 1,
-      senderId: 1,
-      recipientId: 2,
-      content: 'Hello John',
-    },
-    {
-      id: 2,
-      senderId: 1,
-      recipientId: 2,
-      content: 'Are you home?',
-    },
-    {
-      id: 3,
-      senderId: 3,
-      recipientId: 1,
-      content: 'Hello Neil',
-    },
-    {
-      id: 4,
-      senderId: 1,
-      recipientId: 3,
-      content: 'Hi Johnny',
-    },
-    {
-      id: 5,
-      senderId: 1,
-      recipientId: 3,
-      content: 'How are you doing?',
-    },
-  ];
-
-  const convoMessages = dummyMessages.filter((message) =>
-    // Check if the message's recipient and sender are the logged in user
-    // and the opened convo recipient
-    [message.senderId, message.recipientId].every((userId) =>
-      [dummyLoggedInUser.id, recipient.id].includes(userId)
-    )
+      variables: { conversationId },
+    }
   );
+
+  const [messages, setMessages] = useState<MessageData[]>([]);
+
+  useEffect(() => {
+    if (messagesQueryCalled && messagesData?.conversationMessages.messages) {
+      setMessages(messagesData?.conversationMessages.messages);
+    }
+  }, [messagesData?.conversationMessages.messages, messagesQueryCalled]);
 
   const navigate = useNavigate();
 
@@ -140,16 +123,14 @@ const Convo = ({ recipient, loggedinUser, conversationId }: ConvoProps) => {
         </ConversationHeader.Actions>
       </ConversationHeader>
       <MessageList className='dark:bg-primary'>
-        {convoMessages.map((message) => (
+        {messages.map((message) => (
           <Message
             key={message.id}
             model={{
               message: message.content,
-              sender: message.senderId.toString(),
+              sender: message.senderId,
               direction:
-                message.senderId === dummyLoggedInUser.id
-                  ? 'outgoing'
-                  : 'incoming',
+                message.senderId === loggedinUser.id ? 'outgoing' : 'incoming',
               position: 'single',
             }}
           />

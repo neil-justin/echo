@@ -49,6 +49,9 @@ type Conversation {
 
 type Message {
   id: String!
+  content: String!
+  senderId: String!
+  recipientId: String!
 }
 
 type UserConversationsQueryResponse {
@@ -65,6 +68,13 @@ type UserQueryResponse {
   user: User!
 }
 
+type ConversationMessagesQueryResponse {
+  code: String!
+  success: Boolean!
+  httpMessage: String!
+  messages: [Message!]!
+}
+
 type SendMessageMutationResponse {
   code: String!
   success: Boolean!
@@ -77,6 +87,7 @@ type Query {
   searchedUsers(searchTerm: String!): SearchedUsersQueryResponse!
   userConversations(userId: String!): UserConversationsQueryResponse!
   user(userId: String!): UserQueryResponse!
+  conversationMessages(conversationId: String!): ConversationMessagesQueryResponse!
 }
 
 type Mutation {

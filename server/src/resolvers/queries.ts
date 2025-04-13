@@ -2,6 +2,7 @@ import User from '@/models/user';
 import { QueryResolvers } from '../__generated__/resolvers-types';
 import { Op } from 'sequelize';
 import Conversation from '@/models/conversation';
+import Message from '@/models/message';
 
 // Use the generated `QueryResolvers` type to type check our queries!
 const queries: QueryResolvers = {
@@ -59,6 +60,27 @@ const queries: QueryResolvers = {
       success: true,
       message: 'User is queried succssfully',
       user,
+    };
+  },
+  conversationMessages: async (parent, args, contextValue, info) => {
+    const { conversationId } = args;
+
+    const messages = await Message.findAll({
+      include: [
+        {
+          model: Conversation,
+          as: 'conversation',
+          where: { id: conversationId },
+          attributes: [],
+        },
+      ],
+    });
+
+    return {
+      code: '200',
+      success: true,
+      httpMessage: 'Conversation message is queried successfully',
+      messages,
     };
   },
 };
