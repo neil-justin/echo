@@ -28,6 +28,7 @@ interface DummyMessage {
 interface ConvoProps {
   recipient: UserDB;
   loggedinUser: UserDB;
+  conversationId: string | null;
 }
 
 const SEND_MESSAGE = gql(`
@@ -43,7 +44,7 @@ const SEND_MESSAGE = gql(`
   }
 `);
 
-const Convo = ({ recipient, loggedinUser }: ConvoProps) => {
+const Convo = ({ recipient, loggedinUser, conversationId }: ConvoProps) => {
   const [sendMessage] = useMutation(SEND_MESSAGE);
 
   const dummyLoggedInUser: DummyUser = {

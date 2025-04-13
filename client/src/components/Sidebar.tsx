@@ -49,9 +49,14 @@ interface SidebarProps {
     React.SetStateAction<UserDB | null | undefined>
   >;
   loggedinUser: UserDB;
+  updateConversationId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const Sidebar = ({ updateRecipient, loggedinUser }: SidebarProps) => {
+const Sidebar = ({
+  updateRecipient,
+  loggedinUser,
+  updateConversationId,
+}: SidebarProps) => {
   const [getSearchedUsers, { data: searchedUsersData }] =
     useLazyQuery(GET_SEARCHED_USERS);
   const { data: userConversationsData } = useQuery(GET_USER_CONVERSATIONS, {
@@ -107,6 +112,17 @@ const Sidebar = ({ updateRecipient, loggedinUser }: SidebarProps) => {
     updateRecipient(user);
     setOnSearchFocus(false);
     setSearchTerm('');
+  };
+
+  const handleConversationClick = (
+    recipient: UserDB,
+    conversationId: string
+  ) => {
+    updateRecipient(recipient);
+    updateConversationId(conversationId);
+
+    localStorage.setItem('conversation-id', conversationId);
+    localStorage.setItem('recipient', JSON.stringify(recipient));
   };
 
   return (
@@ -214,7 +230,9 @@ const Sidebar = ({ updateRecipient, loggedinUser }: SidebarProps) => {
                       })
                     }
                     key={conversation?.id}
-                    onClick={() => updateRecipient(recipient)}
+                    onClick={() =>
+                      handleConversationClick(recipient, conversation.id)
+                    }
                   >
                     <Avatar className='size-12'>
                       <AvatarImage

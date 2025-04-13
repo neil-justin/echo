@@ -1,7 +1,7 @@
 import Convo from '@/components/Convo';
 import Sidebar from '@/components/Sidebar';
 import { UserDB } from '@/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ChatsProps {
   loggedinUser: UserDB | null | undefined;
@@ -9,6 +9,27 @@ interface ChatsProps {
 
 const Chats = ({ loggedinUser }: ChatsProps) => {
   const [recipient, setRecipient] = useState<UserDB | null | undefined>(null);
+  const [conversationId, setConversationId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedConversationId = localStorage.getItem('conversation-id');
+    let storedRecipient = localStorage.getItem('recipient');
+
+    if (storedRecipient) {
+      storedRecipient = JSON.parse(storedRecipient);
+    }
+
+    if (
+      !conversationId &&
+      storedConversationId &&
+      !recipient &&
+      storedRecipient
+    ) {
+      setConversationId(storedConversationId);
+      // storedRecipient is surely a UserDB instance now after parsing (see above)
+      setRecipient(storedRecipient as unknown as UserDB);
+    }
+  }, [conversationId, recipient]);
 
   if (!loggedinUser) return;
 
@@ -17,11 +38,13 @@ const Chats = ({ loggedinUser }: ChatsProps) => {
       <Sidebar
         updateRecipient={setRecipient}
         loggedinUser={loggedinUser}
+        updateConversationId={setConversationId}
       />
-      {recipient ? (
+      {recipient && conversationId ? (
         <Convo
           recipient={recipient}
           loggedinUser={loggedinUser}
+          conversationId={conversationId}
         />
       ) : (
         <div className='w-full h-full flex items-center justify-center'>
