@@ -53,21 +53,21 @@ const mutations: MutationResolvers = {
     let conversation = await Conversation.findOne({
       include: {
         model: User,
-        where: { id: '5d43610b-a2b3-4bc1-a099-8bef6556d35c' },
+        where: { id: senderId },
         attributes: [],
         required: true,
+        as: 'participants',
       },
-      attributes: ['id'],
     });
+
+    const lastMessageData: LastMessage = {
+      senderId,
+      content: messageContent,
+      timestamp: new Date(),
+    };
 
     // If there is no existing Conversation
     if (!conversation) {
-      const lastMessageData: LastMessage = {
-        senderId,
-        content: messageContent,
-        timestamp: new Date(),
-      };
-
       // Create a Conversation row
       conversation = await Conversation.create({
         lastMessage: lastMessageData,
@@ -79,6 +79,10 @@ const mutations: MutationResolvers = {
         // through/join table
         await conversation.addUser(senderId);
       }
+    } else {
+      conversation.lastMessage = lastMessageData;
+
+      await conversation.save();
     }
 
     const message = await Message.create({

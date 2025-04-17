@@ -16,7 +16,7 @@ import {
 import { Archive } from 'lucide-react';
 import { useMutation, useQuery } from '@apollo/client';
 import { gql } from '@/__generated__/gql';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 
 interface MessageData {
@@ -38,6 +38,9 @@ const SEND_MESSAGE = gql(`
     sendMessage(senderId: $senderId, recipientId: $recipientId, message: $message) {
       message {
         id
+        senderId
+        recipientId
+        content
       }
       conversation {
         id
@@ -71,6 +74,8 @@ const Convo = ({ recipient, loggedinUser, conversationId }: ConvoProps) => {
 
   const [messages, setMessages] = useState<MessageData[]>([]);
 
+  const location = useLocation();
+
   useEffect(() => {
     if (messagesQueryCalled && messagesData?.conversationMessages.messages) {
       setMessages(messagesData?.conversationMessages.messages);
@@ -87,7 +92,11 @@ const Convo = ({ recipient, loggedinUser, conversationId }: ConvoProps) => {
         message,
       },
       onCompleted: ({ sendMessage }) => {
-        navigate(`/chats/${sendMessage.conversation.id}`);
+        setMessages([...messages, sendMessage.message]);
+
+        if (location.pathname.split('/')[2] !== conversationId) {
+          navigate(`/chats/${sendMessage.conversation.id}`);
+        }
       },
     });
   };
